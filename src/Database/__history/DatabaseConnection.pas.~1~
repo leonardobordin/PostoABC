@@ -1,0 +1,47 @@
+unit DatabaseConnection;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, FireDAC.Comp.Client, FireDAC.Stan.Def,
+  FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys.FB, FireDAC.Phys.FBDef,
+  FireDAC.VCLUI.Wait, FireDAC.Comp.UI, FireDAC.Stan.Intf, FireDAC.Phys,
+  FireDAC.Phys.IBBase;
+
+type
+  TDatabaseConnection = class
+  private
+  class var
+    FInstance: TDatabaseConnection;
+    FConnection: TFDConnection;
+    constructor Create;
+  public
+    class function GetInstance: TDatabaseConnection;
+    function GetConnection: TFDConnection;
+  end;
+
+implementation
+
+constructor TDatabaseConnection.Create;
+begin
+  FConnection := TFDConnection.Create(nil);
+  FConnection.Params.DriverID := 'FB';
+  FConnection.Params.Database := 'C:\Databases\MINIMVC.fdb';
+  FConnection.Params.UserName := 'SYSDBA';
+  FConnection.Params.Password := 'masterkey';
+  FConnection.Connected := True;
+end;
+
+class function TDatabaseConnection.GetInstance: TDatabaseConnection;
+begin
+  if not Assigned(FInstance) then
+    FInstance := TDatabaseConnection.Create;
+  Result := FInstance;
+end;
+
+function TDatabaseConnection.GetConnection: TFDConnection;
+begin
+  Result := FConnection;
+end;
+
+end.
