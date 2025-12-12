@@ -1,49 +1,37 @@
 @echo off
-SETLOCAL ENABLEDELAYEDEXPANSION
+REM Auto-executa em nova janela persistente se chamado diretamente
+if "%1"=="RUNNINGFROMSELF" goto :CONTINUE
 
-:: ==========================================================
-:: ==  CORRECAO DO DIRETORIO
-:: ==========================================================
+REM Re-executa a si mesmo com cmd /k para manter a janela aberta
+cmd /k "%~0" RUNNINGFROMSELF
+exit /b 0
+
+:CONTINUE
+REM ========================================================
+REM === SCRIPT PRINCIPAL DE CRIACAO DO BANCO DE DADOS ===
+REM ========================================================
+
+setlocal enabledelayedexpansion
+color 0A
+title Criador de Banco de Dados - PostoABC
 cd /d "%~dp0"
 
-:: ==========================================================
-:: ==  VERIFICACAO DE PRIVILEGIOS DE ADMINISTRADOR
-:: ==========================================================
-net session >nul 2>&1
-IF %ERRORLEVEL% NEQ 0 (
-    echo.
-    echo ERRO DE PERMISSAO:
-    echo ----------------------------------------------------
-    echo Este script PRECISA de privilegios de Administrador.
-    echo Por favor, clique com o botao direito no arquivo BAT
-    echo e selecione "Executar como Administrador".
-    echo ----------------------------------------------------
-    echo.
-    pause
-    EXIT /B 1
-)
-echo Privilegios de Administrador verificados.
 echo.
-
-:: ==========================================================
-:: == CONFIGURACOES
-:: ==========================================================
-SET DB_PATH=C:\ProjetoPostoABC\POSTOABC.FDB
-SET DB_USER=SYSDBA
-SET DB_PASS=masterkey
-SET DDL_SCRIPT=CreateTables.sql
-SET FIREBIRD_PATH=
-:: ==========================================================
-
 echo ==================================================
 echo == INICIANDO A CRIACAO DO BANCO DE DADOS ==
 echo ==================================================
 echo.
 
-:: 1. TENTA ENCONTRAR O CAMINHO DO FIREBIRD
+:: --- ETAPA 1: TENTA ENCONTRAR CAMAINHOS DO FIREBIRD ---
 echo [1/3] Tentando localizar a pasta de instalacao do Firebird...
 
-:: Verifica caminhos
+:: 1. VERIFICA CAMAINHOS DO FIREBIRD
+SET DB_PATH=C:\ProjetoPostoABC\POSTOABC.FDB
+SET DB_USER=SYSDBA
+SET DB_PASS=masterkey
+SET DDL_SCRIPT=criar_base.sql
+SET FIREBIRD_PATH=
+
 IF EXIST "C:\Program Files\Firebird\Firebird_2_5\bin\isql.exe" SET "FIREBIRD_PATH=C:\Program Files\Firebird\Firebird_2_5\bin"
 IF EXIST "C:\Program Files (x86)\Firebird\Firebird_2_5\bin\isql.exe" SET "FIREBIRD_PATH=C:\Program Files (x86)\Firebird\Firebird_2_5\bin"
 IF EXIST "C:\Firebird\bin\isql.exe" SET "FIREBIRD_PATH=C:\Firebird\bin"
@@ -55,7 +43,7 @@ IF NOT DEFINED FIREBIRD_PATH (
 
 echo Firebird encontrado em: "%FIREBIRD_PATH%"
 
-:: 2. VERIFICA SE O ARQUIVO SQL EXISTE
+:: 2. VERIFICA SE OS ARQUIVOS SQL EXISTEM
 IF NOT EXIST "%DDL_SCRIPT%" (
     echo.
     echo ERRO CRITICO: O arquivo "%DDL_SCRIPT%" nao foi encontrado.
@@ -85,7 +73,7 @@ echo.
 
 "%FIREBIRD_PATH%\isql.exe" -user %DB_USER% -password %DB_PASS% "%DB_PATH%" -i "%DDL_SCRIPT%"
 IF %ERRORLEVEL% NEQ 0 (
-    echo ERRO: Falha ao executar o script SQL.
+    echo ERRO: Falha ao executar o script SQL de criacao de tabelas.
     GOTO :TRAP_ERROR
 )
 
@@ -93,17 +81,27 @@ echo.
 echo =========================================================
 echo == SCRIPT CONCLUIDO! BANCO DE DADOS CRIADO. ==
 echo =========================================================
+echo.
+echo Banco de dados criado em: %DB_PATH%
+echo Usuario padrao: %DB_USER%
+echo Senha padrao: %DB_PASS%
+echo.
+echo Digite EXIT no prompt para fechar esta janela.
+echo.
 
 :FIM
-ENDLOCAL
 pause
-EXIT /B 0
+endlocal
+exit /b 0
 
 :TRAP_ERROR
 echo.
 echo =========================================================
-echo == SCRIPT INTERROMPIDO POR ERRO. ==
+echo == ERRO DURANTE A EXECUCAO ==
 echo =========================================================
-ENDLOCAL
+echo.
+echo Digite EXIT no prompt para fechar esta janela.
+echo.
 pause
-EXIT /B 1
+endlocal
+exit /b 1

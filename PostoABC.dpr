@@ -2,35 +2,35 @@ program PostoABC;
 
 uses
   Vcl.Forms,
-  System.UITypes,
-  LoginSystemView in 'src\View\LoginSystemView.pas' {frmLogin},
-  Vcl.Themes,
-  Vcl.Styles,
-  UserController in 'src\Controllers\UserController.pas',
+  Winapi.Windows,
+  System.SysUtils,
+  FireDAC.DApt,
+  MainForm in 'src\Views\MainForm.pas' {frmMain},
   DatabaseConnection in 'src\Database\DatabaseConnection.pas',
-  UserModel in 'src\Models\UserModel.pas',
-  UserRepository in 'src\Models\UserRepository.pas',
-  Validation in 'src\Utils\Validation.pas',
-  MainScreenView in 'src\View\MainScreenView.pas' {frmMainScreen};
+  TanqueModel in 'src\Models\TanqueModel.pas',
+  BombaModel in 'src\Models\BombaModel.pas',
+  AbastecimentoModel in 'src\Models\AbastecimentoModel.pas',
+  TanqueRepository in 'src\Repositories\TanqueRepository.pas',
+  BombaRepository in 'src\Repositories\BombaRepository.pas',
+  AbastecimentoRepository in 'src\Repositories\AbastecimentoRepository.pas',
+  TanqueController in 'src\Controllers\TanqueController.pas',
+  BombaController in 'src\Controllers\BombaController.pas',
+  AbastecimentoController in 'src\Controllers\AbastecimentoController.pas',
+  TanqueForm in 'src\Views\TanqueForm.pas' {frmTanque},
+  BombaForm in 'src\Views\BombaForm.pas' {frmBomba},
+  AbastecimentoForm in 'src\Views\AbastecimentoForm.pas' {frmAbastecimento},
+  InputValidation in 'src\Utils\InputValidation.pas',
+  Vcl.Themes,
+  Vcl.Styles;
 
 {$R *.res}
 
-var
-  LoginSuccess: Boolean;
 begin
+  ReportMemoryLeaksOnShutdown := True;
+  Application.Title := 'Posto ABC';
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
-
-  // Criar tela de login primeiro
-  Application.CreateForm(TfrmLogin, frmLogin);
-  LoginSuccess := frmLogin.ShowModal = mrOk;
-  frmLogin.Free;
-
-  if LoginSuccess then
-  begin
-    Application.CreateForm(TfrmMainScreen, frmMainScreen);
-    Application.Run;
-  end
-  else
-    Application.Terminate;
+  TStyleManager.TrySetStyle('Amakrits');
+  Application.CreateForm(TfrmMain, frmMain);
+  Application.Run;
 end.

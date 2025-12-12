@@ -1,0 +1,50 @@
+# Delphi compiler files
+*.o
+*.obj
+*.d
+*.res
+*.rsm
+*.exe
+*.dll
+*.bpl
+*.bpi
+*.dcp
+*.so
+*.apk
+*.dex
+*.class
+
+# Delphi project files
+*.dsk
+*.local
+*.identcache
+*.projdata
+*.tvsconfig
+*.otares
+*.groupproj.local
+__history/
+__recovery/
+
+# Delphi output directories
+Debug/
+Release/
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Dependencies and libraries
+*.lib
+*.a
+*.bak
+*.tmp
+*.temp
+
