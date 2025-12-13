@@ -4,8 +4,8 @@ object frmMain: TfrmMain
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = 'Posto ABC - Sistema de Gerenciamento de Combust'#237'veis'
-  ClientHeight = 500
-  ClientWidth = 800
+  ClientHeight = 506
+  ClientWidth = 784
   Color = 16250871
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -20,8 +20,8 @@ object frmMain: TfrmMain
   object pnlButtons: TPanel
     Left = 0
     Top = 0
-    Width = 800
-    Height = 500
+    Width = 784
+    Height = 506
     Align = alClient
     BevelOuter = bvNone
     Color = 16250871
@@ -30,8 +30,8 @@ object frmMain: TfrmMain
     ExplicitWidth = 798
     ExplicitHeight = 492
     object btnTanques: TSpeedButton
-      Left = 54
-      Top = 280
+      Left = 51
+      Top = 294
       Width = 200
       Height = 100
       Caption = 'TANQUES'
@@ -44,8 +44,8 @@ object frmMain: TfrmMain
       OnClick = btnTanquesClick
     end
     object btnBombas: TSpeedButton
-      Left = 294
-      Top = 280
+      Left = 291
+      Top = 294
       Width = 200
       Height = 100
       Caption = 'BOMBAS'
@@ -58,8 +58,8 @@ object frmMain: TfrmMain
       OnClick = btnBombasClick
     end
     object btnAbastecimentos: TSpeedButton
-      Left = 534
-      Top = 280
+      Left = 531
+      Top = 294
       Width = 200
       Height = 100
       Caption = 'ABASTECIMENTOS'
@@ -72,8 +72,8 @@ object frmMain: TfrmMain
       OnClick = btnAbastecimentosClick
     end
     object lblBemVindo: TLabel
-      Left = 142
-      Top = 237
+      Left = 139
+      Top = 251
       Width = 494
       Height = 21
       Alignment = taCenter
@@ -88,8 +88,8 @@ object frmMain: TfrmMain
       ParentFont = False
     end
     object imgLogo: TImage
-      Left = 307
-      Top = 50
+      Left = 304
+      Top = 64
       Width = 173
       Height = 173
       Picture.Data = {

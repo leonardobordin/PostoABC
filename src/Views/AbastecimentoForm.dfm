@@ -1,9 +1,11 @@
 object frmAbastecimento: TfrmAbastecimento
   Left = 0
   Top = 0
+  BorderIcons = [biSystemMenu, biMinimize]
+  BorderStyle = bsSingle
   Caption = 'Gerenciamento de Abastecimentos'
-  ClientHeight = 700
-  ClientWidth = 1000
+  ClientHeight = 531
+  ClientWidth = 784
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -17,7 +19,7 @@ object frmAbastecimento: TfrmAbastecimento
   object pnlTitle: TPanel
     Left = 0
     Top = 0
-    Width = 1000
+    Width = 784
     Height = 50
     Align = alTop
     BevelOuter = bvNone
@@ -45,7 +47,7 @@ object frmAbastecimento: TfrmAbastecimento
   object pnlForm: TPanel
     Left = 0
     Top = 50
-    Width = 1000
+    Width = 784
     Height = 180
     Align = alTop
     BevelOuter = bvNone
@@ -161,7 +163,7 @@ object frmAbastecimento: TfrmAbastecimento
   object pnlButtons: TPanel
     Left = 0
     Top = 230
-    Width = 1000
+    Width = 784
     Height = 50
     Align = alTop
     BevelOuter = bvNone
@@ -201,7 +203,7 @@ object frmAbastecimento: TfrmAbastecimento
       OnClick = btnDeletarClick
     end
     object btnFechar: TButton
-      Left = 913
+      Left = 699
       Top = 12
       Width = 75
       Height = 25
@@ -213,8 +215,8 @@ object frmAbastecimento: TfrmAbastecimento
   object pnlGrid: TPanel
     Left = 0
     Top = 280
-    Width = 1000
-    Height = 420
+    Width = 784
+    Height = 251
     Align = alClient
     BevelOuter = bvNone
     Padding.Left = 10
@@ -227,8 +229,8 @@ object frmAbastecimento: TfrmAbastecimento
     object sgAbastecimentos: TStringGrid
       Left = 10
       Top = 10
-      Width = 980
-      Height = 400
+      Width = 764
+      Height = 231
       Align = alClient
       ColCount = 9
       DefaultRowHeight = 20
@@ -236,18 +238,16 @@ object frmAbastecimento: TfrmAbastecimento
       Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goRowSelect]
       TabOrder = 0
       OnSelectCell = sgAbastecimentosSelectCell
-      ExplicitWidth = 978
-      ExplicitHeight = 392
       ColWidths = (
         50
-        200
+        79
+        81
         80
-        80
+        91
+        88
         100
-        100
-        100
-        80
-        150)
+        79
+        98)
     end
   end
 end

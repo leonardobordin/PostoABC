@@ -1,9 +1,11 @@
 object frmTanque: TfrmTanque
   Left = 0
   Top = 0
+  BorderIcons = [biSystemMenu, biMinimize]
+  BorderStyle = bsSingle
   Caption = 'Gerenciamento de Tanques'
-  ClientHeight = 600
-  ClientWidth = 800
+  ClientHeight = 531
+  ClientWidth = 784
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -17,13 +19,14 @@ object frmTanque: TfrmTanque
   object pnlTitle: TPanel
     Left = 0
     Top = 0
-    Width = 800
+    Width = 784
     Height = 50
     Align = alTop
     BevelOuter = bvNone
     Color = clNavy
     ParentBackground = False
     TabOrder = 0
+    ExplicitWidth = 798
     object lblTitle: TLabel
       Left = 10
       Top = 10
@@ -44,7 +47,7 @@ object frmTanque: TfrmTanque
   object pnlForm: TPanel
     Left = 0
     Top = 50
-    Width = 800
+    Width = 784
     Height = 150
     Align = alTop
     BevelOuter = bvNone
@@ -53,6 +56,7 @@ object frmTanque: TfrmTanque
     Padding.Right = 10
     Padding.Bottom = 10
     TabOrder = 1
+    ExplicitWidth = 798
     object lblNome: TLabel
       Left = 12
       Top = 12
@@ -123,7 +127,7 @@ object frmTanque: TfrmTanque
   object pnlButtons: TPanel
     Left = 0
     Top = 200
-    Width = 800
+    Width = 784
     Height = 50
     Align = alTop
     BevelOuter = bvNone
@@ -132,6 +136,7 @@ object frmTanque: TfrmTanque
     Padding.Right = 10
     Padding.Bottom = 10
     TabOrder = 2
+    ExplicitWidth = 798
     object btnNovo: TButton
       Left = 14
       Top = 12
@@ -182,7 +187,7 @@ object frmTanque: TfrmTanque
       OnClick = btnDeletarClick
     end
     object btnFechar: TButton
-      Left = 713
+      Left = 699
       Top = 12
       Width = 75
       Height = 25
@@ -194,8 +199,8 @@ object frmTanque: TfrmTanque
   object pnlGrid: TPanel
     Left = 0
     Top = 250
-    Width = 800
-    Height = 350
+    Width = 784
+    Height = 281
     Align = alClient
     BevelOuter = bvNone
     Padding.Left = 10
@@ -203,17 +208,21 @@ object frmTanque: TfrmTanque
     Padding.Right = 10
     Padding.Bottom = 10
     TabOrder = 3
+    ExplicitWidth = 798
+    ExplicitHeight = 342
     object sgTanques: TStringGrid
       Left = 10
       Top = 10
-      Width = 780
-      Height = 330
+      Width = 764
+      Height = 261
       Align = alClient
       DefaultRowHeight = 20
       RowCount = 2
       Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goRowSelect]
       TabOrder = 0
       OnSelectCell = sgTanquesSelectCell
+      ExplicitWidth = 778
+      ExplicitHeight = 322
       ColWidths = (
         50
         130

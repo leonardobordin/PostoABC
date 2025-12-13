@@ -1,9 +1,11 @@
 object frmBomba: TfrmBomba
   Left = 0
   Top = 0
+  BorderIcons = [biSystemMenu, biMinimize]
+  BorderStyle = bsSingle
   Caption = 'Gerenciamento de Bombas'
-  ClientHeight = 600
-  ClientWidth = 800
+  ClientHeight = 531
+  ClientWidth = 784
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -17,7 +19,7 @@ object frmBomba: TfrmBomba
   object pnlTitle: TPanel
     Left = 0
     Top = 0
-    Width = 800
+    Width = 784
     Height = 50
     Align = alTop
     BevelOuter = bvNone
@@ -45,7 +47,7 @@ object frmBomba: TfrmBomba
   object pnlForm: TPanel
     Left = 0
     Top = 50
-    Width = 800
+    Width = 784
     Height = 130
     Align = alTop
     BevelOuter = bvNone
@@ -127,7 +129,7 @@ object frmBomba: TfrmBomba
   object pnlButtons: TPanel
     Left = 0
     Top = 180
-    Width = 800
+    Width = 784
     Height = 50
     Align = alTop
     BevelOuter = bvNone
@@ -177,7 +179,7 @@ object frmBomba: TfrmBomba
       OnClick = btnDeletarClick
     end
     object btnFechar: TButton
-      Left = 713
+      Left = 699
       Top = 12
       Width = 75
       Height = 25
@@ -189,8 +191,8 @@ object frmBomba: TfrmBomba
   object pnlGrid: TPanel
     Left = 0
     Top = 230
-    Width = 800
-    Height = 370
+    Width = 784
+    Height = 301
     Align = alClient
     BevelOuter = bvNone
     Padding.Left = 10
@@ -203,8 +205,8 @@ object frmBomba: TfrmBomba
     object sgBombas: TStringGrid
       Left = 10
       Top = 10
-      Width = 780
-      Height = 350
+      Width = 764
+      Height = 281
       Align = alClient
       ColCount = 6
       DefaultRowHeight = 20
