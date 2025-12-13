@@ -135,16 +135,10 @@ Forms que interagem com usuário através dos Controllers.
 
 Todas com auto-increment via sequences e triggers no Firebird.
 
-## Compilação e Execução
-
-1. Abra o projeto `PostoABC.dproj` no Delphi 12
-2. Configure o caminho para o config.ini
-3. Compile o projeto: **Build → Build Project**
-4. Execute: **Run → Run** ou **F9**
-
 ## Observações Importantes
 
 - O arquivo `config.ini` deve estar na mesma pasta que o executável
+- Dependendo da instalação do Firebird deverá ser colocado a DLL fbclient.dll junto com o executável do sistema
 - A conexão com banco utiliza **Singleton Pattern** para economizar recursos
 - As validações de entrada são feitas nos Controllers
 - Todos os erros de banco são capturados e exibidos em mensagens amigáveis
