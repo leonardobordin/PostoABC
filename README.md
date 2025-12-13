@@ -150,16 +150,16 @@ Leonardo Bordin - Sistema de Gerenciamento do Posto ABC - 2025
 ## Screenshots da Tela
 
 ### Tela Inicial
-<img width="816" height="555" alt="PostoABC_xjrhWACBaM" src="https://github.com/user-attachments/assets/9caabf78-4ff4-42c2-9eec-abd43522188f" />
+<img width="998" height="700" alt="PostoABC_QL2dXst4yA" src="https://github.com/user-attachments/assets/25bdc769-0638-44f6-b598-e3b03b90670c" />
 
 ### Cadastro de Tanques
-<img width="816" height="635" alt="PostoABC_1KL43XBzX5" src="https://github.com/user-attachments/assets/070b9eb2-6dcd-4be1-bace-1676fc9f2a24" />
+<img width="998" height="706" alt="PostoABC_QW8WyjFzGN" src="https://github.com/user-attachments/assets/4b59ab32-20ae-446c-8530-e9c9aada8026" />
 
 ### Cadastro de Bombas
-<img width="816" height="635" alt="PostoABC_2WWZ8Hs8Zy" src="https://github.com/user-attachments/assets/0045be6b-5ebf-4bdb-8f42-ca2111f52c19" />
+<img width="998" height="706" alt="PostoABC_HFmjvigCgZ" src="https://github.com/user-attachments/assets/bf772437-54e0-4042-a7f1-602d9a270d6b" />
 
 ### Cadastro de Abastecimentos
-<img width="1016" height="735" alt="PostoABC_6PEskCQkyH" src="https://github.com/user-attachments/assets/aaf79a29-6c85-4fdf-ae2e-463e325f3a39" />
+<img width="998" height="706" alt="PostoABC_3zw3Jo3bES" src="https://github.com/user-attachments/assets/5e7800ee-6eaa-4602-aae6-dc0a9188cdff" />
 
 ### Relatório de Abastecimento
-<img width="1928" height="1040" alt="PostoABC_9aoKZs4bOK" src="https://github.com/user-attachments/assets/891d9410-73a2-4a06-a9aa-8d6619d208fb" />
+<img width="1920" height="1149" alt="PostoABC_5HvvUP6Gln" src="https://github.com/user-attachments/assets/3827909e-a63a-407a-ad61-a75fbf659db6" />
