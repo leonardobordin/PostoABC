@@ -147,19 +147,19 @@ Todas com auto-increment via sequences e triggers no Firebird.
 
 Leonardo Bordin - Sistema de Gerenciamento do Posto ABC - 2025
 
-### Screenshots da Tela
+## Screenshots da Tela
 
-## Tela Inicial
+### Tela Inicial
 <img width="816" height="555" alt="PostoABC_xjrhWACBaM" src="https://github.com/user-attachments/assets/9caabf78-4ff4-42c2-9eec-abd43522188f" />
 
-## Cadastro de Tanques
+### Cadastro de Tanques
 <img width="816" height="635" alt="PostoABC_1KL43XBzX5" src="https://github.com/user-attachments/assets/070b9eb2-6dcd-4be1-bace-1676fc9f2a24" />
 
-## Cadastro de Bombas
+### Cadastro de Bombas
 <img width="816" height="635" alt="PostoABC_2WWZ8Hs8Zy" src="https://github.com/user-attachments/assets/0045be6b-5ebf-4bdb-8f42-ca2111f52c19" />
 
-## Cadastro de Abastecimentos
+### Cadastro de Abastecimentos
 <img width="1016" height="735" alt="PostoABC_6PEskCQkyH" src="https://github.com/user-attachments/assets/aaf79a29-6c85-4fdf-ae2e-463e325f3a39" />
 
-## Relatório de Abastecimento
+### Relatório de Abastecimento
 <img width="1928" height="1040" alt="PostoABC_9aoKZs4bOK" src="https://github.com/user-attachments/assets/891d9410-73a2-4a06-a9aa-8d6619d208fb" />
