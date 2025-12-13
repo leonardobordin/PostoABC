@@ -7,7 +7,7 @@ uses
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Menus, Vcl.StdCtrls,
   Vcl.Buttons, Vcl.ExtCtrls,
   DatabaseConnection, TanqueController, BombaController, AbastecimentoController,
-  TanqueForm, BombaForm, AbastecimentoForm, Vcl.Imaging.pngimage;
+  TanqueForm, BombaForm, AbastecimentoForm, RelatorioAbastecimentosForm, Vcl.Imaging.pngimage;
 
 type
   TfrmMain = class(TForm)
@@ -126,9 +126,15 @@ begin
 end;
 
 procedure TfrmMain.mniRelatorioAbastecimentosClick(Sender: TObject);
+var
+  LForm: TfrmRelatorioAbastecimentos;
 begin
-  ShowMessage('Relatório de abastecimentos será implementado em breve');
-  //Implementar relatório com FortesReport
+  LForm := TfrmRelatorioAbastecimentos.Create(nil);
+  try
+    LForm.ShowModal;
+  finally
+    LForm.Free;
+  end;
 end;
 
 procedure TfrmMain.mniSairClick(Sender: TObject);

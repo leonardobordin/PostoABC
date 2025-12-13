@@ -201,16 +201,16 @@ object frmBomba: TfrmBomba
       ColCount = 6
       DefaultRowHeight = 20
       RowCount = 2
-      Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goRowSelect]
+      Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goRowSelect]
       TabOrder = 0
       OnSelectCell = sgBombasSelectCell
       ColWidths = (
         50
-        80
-        120
-        100
-        100
-        80)
+        66
+        216
+        207
+        88
+        131)
     end
   end
 end

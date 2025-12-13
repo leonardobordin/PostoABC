@@ -12,7 +12,8 @@ uses
   BombaRepository,
   BombaModel,
   TanqueRepository,
-  TanqueModel;
+  TanqueModel,
+  FireDAC.Comp.Client;
 
 type
   TAbastecimentoController = class
@@ -35,6 +36,7 @@ type
     function ObterTodos: TObjectList<TAbastecimento>;
     function ObterPorPeriodo(ADataInicio, ADataFim: TDateTime): TObjectList<TAbastecimento>;
     function ObterPorBomba(AIdBomba: Integer): TObjectList<TAbastecimento>;
+    function ObterRelatorioParaPeriodo(ADataInicio, ADataFim: TDateTime): TFDQuery;
     function CalcularImposto(AValor: Double): Double;
   end;
 
@@ -271,6 +273,14 @@ begin
     raise Exception.Create('ID da bomba inválido');
 
   Result := FRepository.ObterPorBomba(AIdBomba);
+end;
+
+function TAbastecimentoController.ObterRelatorioParaPeriodo(ADataInicio, ADataFim: TDateTime): TFDQuery;
+begin
+  if ADataInicio > ADataFim then
+    raise Exception.Create('Data inicial não pode ser maior que data final');
+
+  Result := FRepository.ObterRelatorioParaPeriodo(ADataInicio, ADataFim);
 end;
 
 end.

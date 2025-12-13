@@ -113,10 +113,10 @@ begin
   sgBombas.ColCount := 6;
   sgBombas.RowCount := 2;
   sgBombas.ColWidths[0] := 50;
-  sgBombas.ColWidths[1] := 80;
-  sgBombas.ColWidths[2] := 120;
-  sgBombas.ColWidths[3] := 100;
-  sgBombas.ColWidths[4] := 100;
+  sgBombas.ColWidths[1] := 60;
+  sgBombas.ColWidths[2] := 250;
+  sgBombas.ColWidths[3] := 250;
+  sgBombas.ColWidths[4] := 50;
   sgBombas.ColWidths[5] := 80;
 
   sgBombas.Cells[0, 0] := 'ID';
@@ -130,34 +130,22 @@ end;
 procedure TfrmBomba.CarregarGrid;
 var
   LBombas: TObjectList<TBomba>;
-  LTanque: TTanque;
-  LCount: Integer;
   I: Integer;
 begin
   LBombas := nil;
   try
     try
       LBombas := FBombaController.ObterTodos;
-      LCount := LBombas.Count;
-      sgBombas.RowCount := LCount + 1;
+      sgBombas.RowCount := LBombas.Count + 1;
     
-      for I := 0 to LCount - 1 do
+      for I := 0 to LBombas.Count - 1 do
       begin
-        LTanque := FTanqueController.ObterPorId(LBombas[I].IdTanque);
-        try
-          sgBombas.Cells[0, I + 1] := IntToStr(LBombas[I].Id);
-          sgBombas.Cells[1, I + 1] := IntToStr(LBombas[I].Numero);
-          sgBombas.Cells[2, I + 1] := LBombas[I].Descricao;
-          if Assigned(LTanque) then
-            sgBombas.Cells[3, I + 1] := LTanque.Nome
-          else
-            sgBombas.Cells[3, I + 1] := '';
-          sgBombas.Cells[4, I + 1] := LBombas[I].Status;
-          sgBombas.Cells[5, I + 1] := DateToStr(LBombas[I].DataCriacao);
-        finally
-          if Assigned(LTanque) then
-            LTanque.Free;
-        end;
+        sgBombas.Cells[0, I + 1] := IntToStr(LBombas[I].Id);
+        sgBombas.Cells[1, I + 1] := IntToStr(LBombas[I].Numero);
+        sgBombas.Cells[2, I + 1] := LBombas[I].Descricao;
+        sgBombas.Cells[3, I + 1] := LBombas[I].NomeTanque;
+        sgBombas.Cells[4, I + 1] := LBombas[I].Status;
+        sgBombas.Cells[5, I + 1] := DateToStr(LBombas[I].DataCriacao);
       end;
     except
       on E: Exception do

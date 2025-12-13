@@ -19,6 +19,8 @@ uses
   TanqueForm in 'src\Views\TanqueForm.pas' {frmTanque},
   BombaForm in 'src\Views\BombaForm.pas' {frmBomba},
   AbastecimentoForm in 'src\Views\AbastecimentoForm.pas' {frmAbastecimento},
+  RelatorioAbastecimentosForm in 'src\Views\RelatorioAbastecimentosForm.pas' {frmRelatorioAbastecimentos},
+  RelatorioExibicaoForm in 'src\Views\RelatorioExibicaoForm.pas' {frmRelatorioExibicao},
   InputValidation in 'src\Utils\InputValidation.pas',
   Vcl.Themes,
   Vcl.Styles;

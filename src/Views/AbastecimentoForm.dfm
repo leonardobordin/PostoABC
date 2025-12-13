@@ -224,21 +224,22 @@ object frmAbastecimento: TfrmAbastecimento
       Width = 980
       Height = 400
       Align = alClient
-      ColCount = 8
+      ColCount = 9
       DefaultRowHeight = 20
       RowCount = 2
-      Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goRowSelect]
+      Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goRowSelect]
       TabOrder = 0
       OnSelectCell = sgAbastecimentosSelectCell
       ColWidths = (
         50
-        50
+        200
         80
         80
         100
         100
         100
-        80)
+        80
+        150)
     end
   end
 end

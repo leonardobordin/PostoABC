@@ -144,7 +144,18 @@ begin
   LQuery := TDatabaseConnection.ObterInstancia.CriarConsulta;
   try
     try
-      LQuery.SQL.Text := 'SELECT * FROM BOMBAS ORDER BY ID';
+      LQuery.SQL.Text := 
+        'SELECT ' +
+        '  BOMBAS.ID, ' +
+        '  BOMBAS.NUMERO, ' +
+        '  BOMBAS.DESCRICAO, ' +
+        '  BOMBAS.ID_TANQUE, ' +
+        '  BOMBAS.STATUS, ' +
+        '  BOMBAS.DATA_CRIACAO, ' +
+        '  TANQUES.NOME ' +
+        'FROM BOMBAS ' +
+        'INNER JOIN TANQUES ON BOMBAS.ID_TANQUE = TANQUES.ID ' +
+        'ORDER BY BOMBAS.ID';
       LQuery.Open;
       while not LQuery.Eof do
       begin
@@ -155,6 +166,7 @@ begin
         LBomba.IdTanque := LQuery.FieldByName('ID_TANQUE').AsInteger;
         LBomba.Status := LQuery.FieldByName('STATUS').AsString;
         LBomba.DataCriacao := LQuery.FieldByName('DATA_CRIACAO').AsDateTime;
+        LBomba.NomeTanque := LQuery.FieldByName('NOME').AsString;
         Result.Add(LBomba);
         LQuery.Next;
       end;

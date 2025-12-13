@@ -209,15 +209,15 @@ object frmTanque: TfrmTanque
       Align = alClient
       DefaultRowHeight = 20
       RowCount = 2
-      Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goRowSelect]
+      Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goRowSelect]
       TabOrder = 0
       OnSelectCell = sgTanquesSelectCell
       ColWidths = (
         50
-        150
-        100
-        100
-        100)
+        130
+        149
+        166
+        176)
     end
   end
 end

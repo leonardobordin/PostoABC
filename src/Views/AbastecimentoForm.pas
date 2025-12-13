@@ -142,50 +142,25 @@ end;
 procedure TfrmAbastecimento.CarregarGrid;
 var
   LAbastecimentos: TObjectList<TAbastecimento>;
-  LBomba: TBomba;
-  LTanque: TTanque;
-  LCount: Integer;
   I: Integer;
 begin
   LAbastecimentos := nil;
   try
     try
       LAbastecimentos := FAbastecimentoController.ObterTodos;
-      LCount := LAbastecimentos.Count;
-      sgAbastecimentos.RowCount := LCount + 1;
+      sgAbastecimentos.RowCount := LAbastecimentos.Count + 1;
 
-      for I := 0 to LCount - 1 do
+      for I := 0 to LAbastecimentos.Count - 1 do
       begin
-        LBomba := nil;
-        LTanque := nil;
-        try
-          LBomba := FBombaController.ObterPorId(LAbastecimentos[I].IdBomba);
-          
-          // Buscar tanque através da bomba
-          if Assigned(LBomba) and (LBomba.IdTanque > 0) then
-            LTanque := FTanqueController.ObterPorId(LBomba.IdTanque);
-
-          sgAbastecimentos.Cells[0, I + 1] := IntToStr(LAbastecimentos[I].Id);
-          if Assigned(LBomba) then
-            sgAbastecimentos.Cells[1, I + 1] := LBomba.Descricao
-          else
-            sgAbastecimentos.Cells[1, I + 1] := '';
-          if Assigned(LTanque) then
-            sgAbastecimentos.Cells[2, I + 1] := LTanque.Nome
-          else
-            sgAbastecimentos.Cells[2, I + 1] := '';
-          sgAbastecimentos.Cells[3, I + 1] := FormatFloat('0.00', LAbastecimentos[I].QuantidadeLitros);
-          sgAbastecimentos.Cells[4, I + 1] := FormatFloat('0.00', LAbastecimentos[I].ValorUnitario);
-          sgAbastecimentos.Cells[5, I + 1] := FormatFloat('0.00', LAbastecimentos[I].ValorAbastecimento);
-          sgAbastecimentos.Cells[6, I + 1] := FormatFloat('0.00', LAbastecimentos[I].Imposto);
-          sgAbastecimentos.Cells[7, I + 1] := FormatFloat('0.00', LAbastecimentos[I].ValorTotal);
-          sgAbastecimentos.Cells[8, I + 1] := FormatDateTime('dd/mm/yyyy hh:mm:ss', LAbastecimentos[I].DataAbastecimento);
-        finally
-          if Assigned(LBomba) then
-            LBomba.Free;
-          if Assigned(LTanque) then
-            LTanque.Free;
-        end;
+        sgAbastecimentos.Cells[0, I + 1] := IntToStr(LAbastecimentos[I].Id);
+        sgAbastecimentos.Cells[1, I + 1] := LAbastecimentos[I].DescricaoBomba;
+        sgAbastecimentos.Cells[2, I + 1] := LAbastecimentos[I].NomeTanque;
+        sgAbastecimentos.Cells[3, I + 1] := FormatFloat('0.00', LAbastecimentos[I].QuantidadeLitros);
+        sgAbastecimentos.Cells[4, I + 1] := FormatFloat('0.00', LAbastecimentos[I].ValorUnitario);
+        sgAbastecimentos.Cells[5, I + 1] := FormatFloat('0.00', LAbastecimentos[I].ValorAbastecimento);
+        sgAbastecimentos.Cells[6, I + 1] := FormatFloat('0.00', LAbastecimentos[I].Imposto);
+        sgAbastecimentos.Cells[7, I + 1] := FormatFloat('0.00', LAbastecimentos[I].ValorTotal);
+        sgAbastecimentos.Cells[8, I + 1] := FormatDateTime('dd/mm/yyyy hh:mm:ss', LAbastecimentos[I].DataAbastecimento);
       end;
     except
       on E: Exception do
@@ -230,7 +205,8 @@ begin
           edtValorAbastecimento.Text := FormatFloat('0.00', LAbastecimento.ValorAbastecimento);
           edtImposto.Text := FormatFloat('0.00', LAbastecimento.Imposto);
           edtValorTotal.Text := FormatFloat('0.00', LAbastecimento.ValorTotal);
-          HabilitarCampos(False);
+          HabilitarCampos(True);
+          btnDeletar.Enabled := True;
         end;
       finally
         LAbastecimento.Free;
@@ -247,14 +223,19 @@ begin
   cbxBomba.Enabled := AHabilitar;
   edtQuantidade.Enabled := AHabilitar;
   edtValorUnitario.Enabled := AHabilitar;
+  btnDeletar.Enabled := False;
 end;
 
 procedure TfrmAbastecimento.AtualizarEstadoBotoes;
 begin
-  // Botão Inserir habilitado apenas em modo de novo (FIdSelecionado = 0)
-  btnInserir.Enabled := (FIdSelecionado = 0) and (cbxBomba.ItemIndex >= 0);
-  // Botão Deletar habilitado apenas quando há seleção (modo de visualização)
-  btnDeletar.Enabled := (FIdSelecionado > 0);
+  if FIdSelecionado > 0 then
+  begin
+    btnInserir.Enabled := False;
+  end
+  else
+  begin
+    btnInserir.Enabled := (cbxBomba.ItemIndex >= 0);
+  end;
 end;
 
 procedure TfrmAbastecimento.CalcularValores;
@@ -285,7 +266,8 @@ procedure TfrmAbastecimento.btnNovoClick(Sender: TObject);
 begin
   LimparCampos;
   HabilitarCampos(True);
-  btnInserir.Enabled := False;  // Será habilitado quando Bomba for selecionada
+  btnInserir.Enabled := True;
+  btnDeletar.Enabled := False;
   edtQuantidade.SetFocus;
 end;
 

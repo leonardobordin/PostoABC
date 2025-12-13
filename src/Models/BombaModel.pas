@@ -14,6 +14,7 @@ type
     FIdTanque: Integer;
     FStatus: string;
     FDataCriacao: TDateTime;
+    FNomeTanque: string;
 
     procedure SetId(const Value: Integer);
     procedure SetNumero(const Value: Integer);
@@ -21,6 +22,7 @@ type
     procedure SetIdTanque(const Value: Integer);
     procedure SetStatus(const Value: string);
     procedure SetDataCriacao(const Value: TDateTime);
+    procedure SetNomeTanque(const Value: string);
 
     function GetId: Integer;
     function GetNumero: Integer;
@@ -28,6 +30,7 @@ type
     function GetIdTanque: Integer;
     function GetStatus: string;
     function GetDataCriacao: TDateTime;
+    function GetNomeTanque: string;
   public
     constructor Create;
     destructor Destroy; override;
@@ -38,6 +41,7 @@ type
     property IdTanque: Integer read GetIdTanque write SetIdTanque;
     property Status: string read GetStatus write SetStatus;
     property DataCriacao: TDateTime read GetDataCriacao write SetDataCriacao;
+    property NomeTanque: string read GetNomeTanque write SetNomeTanque;
   end;
 
 implementation
@@ -118,6 +122,16 @@ end;
 function TBomba.GetDataCriacao: TDateTime;
 begin
   Result := FDataCriacao;
+end;
+
+procedure TBomba.SetNomeTanque(const Value: string);
+begin
+  FNomeTanque := Value;
+end;
+
+function TBomba.GetNomeTanque: string;
+begin
+  Result := FNomeTanque;
 end;
 
 end.

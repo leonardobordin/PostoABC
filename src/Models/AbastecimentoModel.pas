@@ -16,6 +16,8 @@ type
     FImposto: Double;
     FValorTotal: Double;
     FDataAbastecimento: TDateTime;
+    FDescricaoBomba: string;
+    FNomeTanque: string;
 
     procedure SetId(const Value: Integer);
     procedure SetIdBomba(const Value: Integer);
@@ -25,6 +27,8 @@ type
     procedure SetImposto(const Value: Double);
     procedure SetValorTotal(const Value: Double);
     procedure SetDataAbastecimento(const Value: TDateTime);
+    procedure SetDescricaoBomba(const Value: string);
+    procedure SetNomeTanque(const Value: string);
 
     function GetId: Integer;
     function GetIdBomba: Integer;
@@ -34,6 +38,8 @@ type
     function GetImposto: Double;
     function GetValorTotal: Double;
     function GetDataAbastecimento: TDateTime;
+    function GetDescricaoBomba: string;
+    function GetNomeTanque: string;
   public
     constructor Create;
     destructor Destroy; override;
@@ -46,6 +52,8 @@ type
     property Imposto: Double read GetImposto write SetImposto;
     property ValorTotal: Double read GetValorTotal write SetValorTotal;
     property DataAbastecimento: TDateTime read GetDataAbastecimento write SetDataAbastecimento;
+    property DescricaoBomba: string read GetDescricaoBomba write SetDescricaoBomba;
+    property NomeTanque: string read GetNomeTanque write SetNomeTanque;
   end;
 
 implementation
@@ -148,6 +156,26 @@ end;
 function TAbastecimento.GetDataAbastecimento: TDateTime;
 begin
   Result := FDataAbastecimento;
+end;
+
+procedure TAbastecimento.SetDescricaoBomba(const Value: string);
+begin
+  FDescricaoBomba := Value;
+end;
+
+function TAbastecimento.GetDescricaoBomba: string;
+begin
+  Result := FDescricaoBomba;
+end;
+
+procedure TAbastecimento.SetNomeTanque(const Value: string);
+begin
+  FNomeTanque := Value;
+end;
+
+function TAbastecimento.GetNomeTanque: string;
+begin
+  Result := FNomeTanque;
 end;
 
 end.

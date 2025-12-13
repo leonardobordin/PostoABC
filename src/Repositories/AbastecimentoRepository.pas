@@ -22,6 +22,7 @@ type
     function ObterTodos: TObjectList<TAbastecimento>;
     function ObterPorPeriodo(ADataInicio, ADataFim: TDateTime): TObjectList<TAbastecimento>;
     function ObterPorBomba(AIdBomba: Integer): TObjectList<TAbastecimento>;
+    function ObterRelatorioParaPeriodo(ADataInicio, ADataFim: TDateTime): TFDQuery;
   end;
 
 implementation
@@ -154,7 +155,22 @@ begin
   LQuery := TDatabaseConnection.ObterInstancia.CriarConsulta;
   try
     try
-      LQuery.SQL.Text := 'SELECT * FROM ABASTECIMENTOS ORDER BY DATA_ABASTECIMENTO DESC';
+      LQuery.SQL.Text := 
+        'SELECT ' +
+        '  ABASTECIMENTOS.ID, ' +
+        '  ABASTECIMENTOS.ID_BOMBA, ' +
+        '  ABASTECIMENTOS.QUANTIDADE_LITROS, ' +
+        '  ABASTECIMENTOS.VALOR_UNITARIO, ' +
+        '  ABASTECIMENTOS.VALOR_ABASTECIMENTO, ' +
+        '  ABASTECIMENTOS.IMPOSTO, ' +
+        '  ABASTECIMENTOS.VALOR_TOTAL, ' +
+        '  ABASTECIMENTOS.DATA_ABASTECIMENTO, ' +
+        '  BOMBAS.DESCRICAO, ' +
+        '  TANQUES.NOME ' +
+        'FROM ABASTECIMENTOS ' +
+        'INNER JOIN BOMBAS ON ABASTECIMENTOS.ID_BOMBA = BOMBAS.ID ' +
+        'INNER JOIN TANQUES ON BOMBAS.ID_TANQUE = TANQUES.ID ' +
+        'ORDER BY ABASTECIMENTOS.DATA_ABASTECIMENTO DESC';
       LQuery.Open;
       while not LQuery.Eof do
       begin
@@ -167,6 +183,8 @@ begin
         LAbastecimento.Imposto := LQuery.FieldByName('IMPOSTO').AsCurrency;
         LAbastecimento.ValorTotal := LQuery.FieldByName('VALOR_TOTAL').AsCurrency;
         LAbastecimento.DataAbastecimento := LQuery.FieldByName('DATA_ABASTECIMENTO').AsDateTime;
+        LAbastecimento.DescricaoBomba := LQuery.FieldByName('DESCRICAO').AsString;
+        LAbastecimento.NomeTanque := LQuery.FieldByName('NOME').AsString;
         Result.Add(LAbastecimento);
         LQuery.Next;
       end;
@@ -257,6 +275,43 @@ begin
     end;
   finally
     LQuery.Free;
+  end;
+end;
+
+function TAbastecimentoRepository.ObterRelatorioParaPeriodo(ADataInicio, ADataFim: TDateTime): TFDQuery;
+begin
+  Result := TDatabaseConnection.ObterInstancia.CriarConsulta;
+  try
+    Result.SQL.Clear;
+    Result.SQL.Text :=
+      'SELECT ' +
+      '    BOMBAS.DESCRICAO AS Bomba, ' +
+      '    ABASTECIMENTOS.DATA_ABASTECIMENTO AS DataAbastecimento, ' +
+      '    TANQUES.NOME AS Tanque, ' +
+      '    ABASTECIMENTOS.VALOR_ABASTECIMENTO AS Valor, ' +
+      '    ABASTECIMENTOS.IMPOSTO AS Imposto, ' +
+      '    ABASTECIMENTOS.VALOR_TOTAL AS ValorComImposto ' +
+      'FROM ' +
+      '    ABASTECIMENTOS ' +
+      '    INNER JOIN BOMBAS ON ABASTECIMENTOS.ID_BOMBA = BOMBAS.ID ' +
+      '    INNER JOIN TANQUES ON BOMBAS.ID_TANQUE = TANQUES.ID ' +
+      'WHERE ' +
+      '    ABASTECIMENTOS.DATA_ABASTECIMENTO >= :DATAINICIO ' +
+      '    AND ABASTECIMENTOS.DATA_ABASTECIMENTO < :DATAFIM ' +
+      'ORDER BY ' +
+      '    TANQUES.NOME, ' +
+      '    BOMBAS.DESCRICAO, ' +
+      '    ABASTECIMENTOS.DATA_ABASTECIMENTO ' ;
+    
+    Result.ParamByName('DATAINICIO').AsDateTime := ADataInicio;
+    Result.ParamByName('DATAFIM').AsDateTime := ADataFim + 1;
+    Result.Open;
+  except
+    on E: Exception do
+    begin
+      Result.Free;
+      raise Exception.Create('Erro ao obter relatório de abastecimentos: ' + E.Message);
+    end;
   end;
 end;
 

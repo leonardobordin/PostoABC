@@ -27,6 +27,8 @@ object frmMain: TfrmMain
     Color = 16250871
     ParentBackground = False
     TabOrder = 0
+    ExplicitWidth = 798
+    ExplicitHeight = 492
     object btnTanques: TSpeedButton
       Left = 54
       Top = 280

@@ -115,7 +115,7 @@ begin
   sgTanques.RowCount := 2;
   sgTanques.ColWidths[0] := 50;
   sgTanques.ColWidths[1] := 150;
-  sgTanques.ColWidths[2] := 100;
+  sgTanques.ColWidths[2] := 200;
   sgTanques.ColWidths[3] := 100;
   sgTanques.ColWidths[4] := 100;
   sgTanques.ColWidths[5] := 150;
