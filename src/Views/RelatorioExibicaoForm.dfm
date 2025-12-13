@@ -15,17 +15,17 @@ object frmRelatorioExibicao: TfrmRelatorioExibicao
   object RLReport1: TRLReport
     Left = 1
     Top = 0
-    Width = 794
-    Height = 1123
+    Width = 992
+    Height = 1403
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clBlack
     Font.Height = -13
     Font.Name = 'Segoe UI'
     Font.Style = []
     object RLBandTitle: TRLBand
-      Left = 38
-      Top = 38
-      Width = 718
+      Left = 47
+      Top = 47
+      Width = 898
       Height = 67
       BandType = btTitle
       object RLDrawTitle: TRLDraw
@@ -47,19 +47,6 @@ object frmRelatorioExibicao: TfrmRelatorioExibicao
         Font.Name = 'Segoe UI'
         Font.Style = [fsBold]
         ParentFont = False
-      end
-      object RLSystemInfoData: TRLSystemInfo
-        Left = 344
-        Top = 30
-        Width = 33
-        Height = 13
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clBlack
-        Font.Height = -11
-        Font.Name = 'Segoe UI'
-        Font.Style = []
-        ParentFont = False
-        Text = ''
       end
       object RLSystemInfoPagina: TRLSystemInfo
         Left = 640
@@ -340,15 +327,15 @@ object frmRelatorioExibicao: TfrmRelatorioExibicao
       end
     end
     object RLGroup1: TRLGroup
-      Left = 38
-      Top = 105
-      Width = 718
+      Left = 47
+      Top = 114
+      Width = 898
       Height = 88
       DataFields = 'Tanque'
       object RLBandDetail: TRLBand
         Left = 0
         Top = 48
-        Width = 718
+        Width = 898
         Height = 20
         BeforePrint = RLBandDetailBeforePrint
         object RLDrawBomba: TRLDraw
@@ -454,7 +441,7 @@ object frmRelatorioExibicao: TfrmRelatorioExibicao
       object RLBandHeader: TRLBand
         Left = 0
         Top = 0
-        Width = 718
+        Width = 898
         Height = 48
         BandType = btHeader
         BeforePrint = RLBandHeaderBeforePrint
@@ -614,7 +601,7 @@ object frmRelatorioExibicao: TfrmRelatorioExibicao
       object RLBandGroupFooter: TRLBand
         Left = 0
         Top = 68
-        Width = 718
+        Width = 898
         Height = 20
         BandType = btSummary
         BeforePrint = RLBandGroupFooterBeforePrint
@@ -701,9 +688,9 @@ object frmRelatorioExibicao: TfrmRelatorioExibicao
       end
     end
     object RLBandFooter: TRLBand
-      Left = 38
-      Top = 193
-      Width = 718
+      Left = 47
+      Top = 202
+      Width = 898
       Height = 26
       BandType = btSummary
       BeforePrint = RLBandFooterBeforePrint

@@ -15,7 +15,6 @@ type
     RLBandTitle: TRLBand;
     RLDrawTitle: TRLDraw;
     RLLabelEmpresa: TRLLabel;
-    RLSystemInfoData: TRLSystemInfo;
     RLSystemInfoPagina: TRLSystemInfo;
     RLLabelPagina: TRLLabel;
     RLLabelTitulo: TRLLabel;
@@ -129,6 +128,9 @@ end;
 procedure TfrmRelatorioExibicao.RLDrawTitleBeforePrint(Sender: TObject;
   var PrintIt: Boolean);
 begin
+  RLLabelTitulo.Caption := 'Relatório de Abastecimentos | Data da Impressão: '
+                           +FormatDateTime('dd/MM/yyyy', now);
+
   RLLabelPeriodo.Caption := 'Período do Relatório: '
                             +FormatDateTime('dd/MM/yyyy', FDataInicio)
                             + ' à '
