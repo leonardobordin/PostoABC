@@ -24,6 +24,7 @@ object frmAbastecimento: TfrmAbastecimento
     Color = clNavy
     ParentBackground = False
     TabOrder = 0
+    ExplicitWidth = 998
     object lblTitle: TLabel
       Left = 10
       Top = 10
@@ -53,6 +54,7 @@ object frmAbastecimento: TfrmAbastecimento
     Padding.Right = 10
     Padding.Bottom = 10
     TabOrder = 1
+    ExplicitWidth = 998
     object lblBomba: TLabel
       Left = 12
       Top = 12
@@ -168,6 +170,7 @@ object frmAbastecimento: TfrmAbastecimento
     Padding.Right = 10
     Padding.Bottom = 10
     TabOrder = 2
+    ExplicitWidth = 998
     object btnNovo: TButton
       Left = 12
       Top = 12
@@ -219,6 +222,8 @@ object frmAbastecimento: TfrmAbastecimento
     Padding.Right = 10
     Padding.Bottom = 10
     TabOrder = 3
+    ExplicitWidth = 998
+    ExplicitHeight = 412
     object sgAbastecimentos: TStringGrid
       Left = 10
       Top = 10
@@ -231,6 +236,8 @@ object frmAbastecimento: TfrmAbastecimento
       Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goRowSelect]
       TabOrder = 0
       OnSelectCell = sgAbastecimentosSelectCell
+      ExplicitWidth = 978
+      ExplicitHeight = 392
       ColWidths = (
         50
         200

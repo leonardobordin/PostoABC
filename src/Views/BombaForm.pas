@@ -119,15 +119,15 @@ begin
   sgBombas.ColWidths[1] := 60;
   sgBombas.ColWidths[2] := 250;
   sgBombas.ColWidths[3] := 250;
-  sgBombas.ColWidths[4] := 50;
-  sgBombas.ColWidths[5] := 80;
+  sgBombas.ColWidths[4] := 70;
+  sgBombas.ColWidths[5] := 150;
 
   sgBombas.Cells[0, 0] := 'ID';
   sgBombas.Cells[1, 0] := 'Número';
   sgBombas.Cells[2, 0] := 'Descrição';
   sgBombas.Cells[3, 0] := 'Tanque';
   sgBombas.Cells[4, 0] := 'Status';
-  sgBombas.Cells[5, 0] := 'Criação';
+  sgBombas.Cells[5, 0] := 'Data/Hora';
 end;
 
 procedure TfrmBomba.CarregarGrid;
@@ -148,7 +148,7 @@ begin
         sgBombas.Cells[2, I + 1] := LBombas[I].Descricao;
         sgBombas.Cells[3, I + 1] := LBombas[I].NomeTanque;
         sgBombas.Cells[4, I + 1] := LBombas[I].Status;
-        sgBombas.Cells[5, I + 1] := DateToStr(LBombas[I].DataCriacao);
+        sgBombas.Cells[5, I + 1] := FormatDateTime('dd/mm/yyyy hh:mm:ss',LBombas[I].DataCriacao);
       end;
     except
       on E: Exception do

@@ -72,8 +72,8 @@ object frmMain: TfrmMain
       OnClick = btnAbastecimentosClick
     end
     object lblBemVindo: TLabel
-      Left = 156
-      Top = 243
+      Left = 142
+      Top = 237
       Width = 494
       Height = 21
       Alignment = taCenter
@@ -86,7 +86,6 @@ object frmMain: TfrmMain
       Font.Name = 'Segoe UI'
       Font.Style = []
       ParentFont = False
-      WordWrap = True
     end
     object imgLogo: TImage
       Left = 307

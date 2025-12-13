@@ -24,6 +24,7 @@ object frmBomba: TfrmBomba
     Color = clNavy
     ParentBackground = False
     TabOrder = 0
+    ExplicitWidth = 798
     object lblTitle: TLabel
       Left = 10
       Top = 10
@@ -53,6 +54,7 @@ object frmBomba: TfrmBomba
     Padding.Right = 10
     Padding.Bottom = 10
     TabOrder = 1
+    ExplicitWidth = 798
     object lblNumero: TLabel
       Left = 12
       Top = 12
@@ -134,6 +136,7 @@ object frmBomba: TfrmBomba
     Padding.Right = 10
     Padding.Bottom = 10
     TabOrder = 2
+    ExplicitWidth = 798
     object btnNovo: TButton
       Left = 12
       Top = 12
@@ -195,6 +198,8 @@ object frmBomba: TfrmBomba
     Padding.Right = 10
     Padding.Bottom = 10
     TabOrder = 3
+    ExplicitWidth = 798
+    ExplicitHeight = 362
     object sgBombas: TStringGrid
       Left = 10
       Top = 10
@@ -207,6 +212,8 @@ object frmBomba: TfrmBomba
       Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goRowSelect]
       TabOrder = 0
       OnSelectCell = sgBombasSelectCell
+      ExplicitWidth = 778
+      ExplicitHeight = 342
       ColWidths = (
         50
         66
