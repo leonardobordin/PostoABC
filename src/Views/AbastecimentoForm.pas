@@ -49,6 +49,7 @@ type
     procedure edtQuantidadeKeyPress(Sender: TObject; var Key: Char);
     procedure edtValorUnitarioKeyPress(Sender: TObject; var Key: Char);
     procedure cbxBombaChange(Sender: TObject);
+    procedure cbxBombaKeyPress(Sender: TObject; var Key: Char);
   private
     FAbastecimentoController: TAbastecimentoController;
     FBombaController: TBombaController;
@@ -355,17 +356,38 @@ end;
 
 procedure TfrmAbastecimento.edtQuantidadeKeyPress(Sender: TObject; var Key: Char);
 begin
-  TInputValidation.ValidarDecimal(Sender, Key);
+  if Key = #13 then
+  begin
+    Key := #0;
+    edtValorUnitario.SetFocus;
+  end
+  else
+    TInputValidation.ValidarDecimal(Sender, Key);
 end;
 
 procedure TfrmAbastecimento.edtValorUnitarioKeyPress(Sender: TObject; var Key: Char);
 begin
-  TInputValidation.ValidarDecimal(Sender, Key);
+  if Key = #13 then
+  begin
+    Key := #0;
+    btnInserir.SetFocus;
+  end
+  else
+    TInputValidation.ValidarDecimal(Sender, Key);
 end;
 
 procedure TfrmAbastecimento.cbxBombaChange(Sender: TObject);
 begin
   AtualizarEstadoBotoes;
+end;
+
+procedure TfrmAbastecimento.cbxBombaKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key = #13 then
+  begin
+    Key := #0;
+    edtQuantidade.SetFocus;
+  end;
 end;
 
 end.

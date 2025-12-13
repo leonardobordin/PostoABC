@@ -109,6 +109,7 @@ object frmAbastecimento: TfrmAbastecimento
       Style = csDropDownList
       TabOrder = 0
       OnChange = cbxBombaChange
+      OnKeyPress = cbxBombaKeyPress
     end
     object edtQuantidade: TEdit
       Left = 170
@@ -136,7 +137,7 @@ object frmAbastecimento: TfrmAbastecimento
       Width = 100
       Height = 21
       ReadOnly = True
-      TabOrder = 3
+      TabOrder = -1
     end
     object edtImposto: TEdit
       Left = 494
@@ -144,7 +145,7 @@ object frmAbastecimento: TfrmAbastecimento
       Width = 100
       Height = 21
       ReadOnly = True
-      TabOrder = 4
+      TabOrder = -1
     end
     object edtValorTotal: TEdit
       Left = 602
@@ -152,7 +153,7 @@ object frmAbastecimento: TfrmAbastecimento
       Width = 100
       Height = 21
       ReadOnly = True
-      TabOrder = 5
+      TabOrder = -1
     end
   end
   object pnlButtons: TPanel

@@ -40,6 +40,9 @@ type
     procedure sgBombasSelectCell(Sender: TObject; ACol, ARow: Integer;
       var CanSelect: Boolean);
     procedure edtNumeroKeyPress(Sender: TObject; var Key: Char);
+    procedure edtDescricaoKeyPress(Sender: TObject; var Key: Char);
+    procedure cbxTanqueKeyPress(Sender: TObject; var Key: Char);
+    procedure cbxStatusKeyPress(Sender: TObject; var Key: Char);
   private
     FBombaController: TBombaController;
     FTanqueController: TTanqueController;
@@ -344,7 +347,40 @@ end;
 
 procedure TfrmBomba.edtNumeroKeyPress(Sender: TObject; var Key: Char);
 begin
-  TInputValidation.ValidarInteiro(Sender, Key);
+  if Key = #13 then
+  begin
+    Key := #0;
+    edtDescricao.SetFocus;
+  end
+  else
+    TInputValidation.ValidarInteiro(Sender, Key);
+end;
+
+procedure TfrmBomba.edtDescricaoKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key = #13 then
+  begin
+    Key := #0;
+    cbxTanque.SetFocus;
+  end;
+end;
+
+procedure TfrmBomba.cbxTanqueKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key = #13 then
+  begin
+    Key := #0;
+    cbxStatus.SetFocus;
+  end;
+end;
+
+procedure TfrmBomba.cbxStatusKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key = #13 then
+  begin
+    Key := #0;
+    btnInserir.SetFocus;
+  end;
 end;
 
 end.

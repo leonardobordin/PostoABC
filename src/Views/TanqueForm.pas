@@ -41,6 +41,8 @@ type
     procedure btnFecharClick(Sender: TObject);
     procedure sgTanquesSelectCell(Sender: TObject; ACol, ARow: Integer;
       var CanSelect: Boolean);
+    procedure edtNomeKeyPress(Sender: TObject; var Key: Char);
+    procedure edtTipoKeyPress(Sender: TObject; var Key: Char);
     procedure edtCapacidadeKeyPress(Sender: TObject; var Key: Char);
     procedure edtNivelAtualKeyPress(Sender: TObject; var Key: Char);
   private
@@ -331,14 +333,44 @@ begin
   end;
 end;
 
+procedure TfrmTanque.edtNomeKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key = #13 then
+  begin
+    Key := #0;
+    edtTipo.SetFocus;
+  end;
+end;
+
+procedure TfrmTanque.edtTipoKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key = #13 then
+  begin
+    Key := #0;
+    edtCapacidade.SetFocus;
+  end;
+end;
+
 procedure TfrmTanque.edtCapacidadeKeyPress(Sender: TObject; var Key: Char);
 begin
-  TInputValidation.ValidarDecimal(Sender, Key);
+  if Key = #13 then
+  begin
+    Key := #0;
+    edtNivelAtual.SetFocus;
+  end
+  else
+    TInputValidation.ValidarDecimal(Sender, Key);
 end;
 
 procedure TfrmTanque.edtNivelAtualKeyPress(Sender: TObject; var Key: Char);
 begin
-  TInputValidation.ValidarDecimal(Sender, Key);
+  if Key = #13 then
+  begin
+    Key := #0;
+    btnInserir.SetFocus;
+  end
+  else
+    TInputValidation.ValidarDecimal(Sender, Key);
 end;
 
 end.

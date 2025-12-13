@@ -92,6 +92,7 @@ object frmTanque: TfrmTanque
       Height = 21
       MaxLength = 100
       TabOrder = 0
+      OnKeyPress = edtNomeKeyPress
     end
     object edtTipo: TEdit
       Left = 330
@@ -100,6 +101,7 @@ object frmTanque: TfrmTanque
       Height = 21
       MaxLength = 50
       TabOrder = 1
+      OnKeyPress = edtTipoKeyPress
     end
     object edtCapacidade: TEdit
       Left = 548

@@ -101,6 +101,7 @@ object frmBomba: TfrmBomba
       Height = 21
       MaxLength = 50
       TabOrder = 1
+      OnKeyPress = edtDescricaoKeyPress
     end
     object cbxTanque: TComboBox
       Left = 330
@@ -109,6 +110,7 @@ object frmBomba: TfrmBomba
       Height = 21
       Style = csDropDownList
       TabOrder = 2
+      OnKeyPress = cbxTanqueKeyPress
     end
     object cbxStatus: TComboBox
       Left = 548
@@ -117,6 +119,7 @@ object frmBomba: TfrmBomba
       Height = 21
       Style = csDropDownList
       TabOrder = 3
+      OnKeyPress = cbxStatusKeyPress
     end
   end
   object pnlButtons: TPanel
