@@ -45,14 +45,14 @@ begin
   FBomba.Id := 5;
   FBomba.Descricao := 'Bomba Teste';
   FBomba.IdTanque := 2;
-  FBomba.Status := 'Ativa';
+  FBomba.Status := 'ATIVA';
   FBomba.DataCriacao := Now;
   FBomba.NomeTanque := 'Tanque Azul';
 
   Assert.AreEqual(5, FBomba.Id);
   Assert.AreEqual('Bomba Teste', FBomba.Descricao);
   Assert.AreEqual(2, FBomba.IdTanque);
-  Assert.AreEqual('Ativa', FBomba.Status);
+  Assert.AreEqual('ATIVA', FBomba.Status);
   Assert.AreEqual('Tanque Azul', FBomba.NomeTanque);
 end;
 

@@ -48,7 +48,7 @@ begin
   try
     Bomba.Descricao := 'Teste';
     Bomba.IdTanque := 1;
-    Bomba.Status := 'Ativa';
+    Bomba.Status := 'ATIVA';
     try
       FBombaRepository.Inserir(Bomba);
       Assert.IsTrue(True, 'Inserir executado sem exceção');
