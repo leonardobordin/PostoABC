@@ -26,7 +26,6 @@ object frmAbastecimento: TfrmAbastecimento
     Color = clNavy
     ParentBackground = False
     TabOrder = 0
-    ExplicitWidth = 998
     object lblTitle: TLabel
       Left = 10
       Top = 10
@@ -56,7 +55,6 @@ object frmAbastecimento: TfrmAbastecimento
     Padding.Right = 10
     Padding.Bottom = 10
     TabOrder = 1
-    ExplicitWidth = 998
     object lblBomba: TLabel
       Left = 12
       Top = 12
@@ -141,7 +139,7 @@ object frmAbastecimento: TfrmAbastecimento
       Width = 100
       Height = 21
       ReadOnly = True
-      TabOrder = -1
+      TabOrder = 3
     end
     object edtImposto: TEdit
       Left = 494
@@ -149,7 +147,7 @@ object frmAbastecimento: TfrmAbastecimento
       Width = 100
       Height = 21
       ReadOnly = True
-      TabOrder = -1
+      TabOrder = 4
     end
     object edtValorTotal: TEdit
       Left = 602
@@ -157,7 +155,7 @@ object frmAbastecimento: TfrmAbastecimento
       Width = 100
       Height = 21
       ReadOnly = True
-      TabOrder = -1
+      TabOrder = 5
     end
   end
   object pnlButtons: TPanel
@@ -172,7 +170,6 @@ object frmAbastecimento: TfrmAbastecimento
     Padding.Right = 10
     Padding.Bottom = 10
     TabOrder = 2
-    ExplicitWidth = 998
     object btnNovo: TButton
       Left = 12
       Top = 12
@@ -193,7 +190,7 @@ object frmAbastecimento: TfrmAbastecimento
       OnClick = btnInserirClick
     end
     object btnDeletar: TButton
-      Left = 178
+      Left = 257
       Top = 12
       Width = 75
       Height = 25
@@ -211,6 +208,16 @@ object frmAbastecimento: TfrmAbastecimento
       TabOrder = 3
       OnClick = btnFecharClick
     end
+    object btnAtualizar: TButton
+      Left = 176
+      Top = 12
+      Width = 75
+      Height = 25
+      Caption = '&Atualizar'
+      Enabled = False
+      TabOrder = 4
+      OnClick = btnAtualizarClick
+    end
   end
   object pnlGrid: TPanel
     Left = 0
@@ -224,8 +231,6 @@ object frmAbastecimento: TfrmAbastecimento
     Padding.Right = 10
     Padding.Bottom = 10
     TabOrder = 3
-    ExplicitWidth = 998
-    ExplicitHeight = 412
     object sgAbastecimentos: TStringGrid
       Left = 10
       Top = 10

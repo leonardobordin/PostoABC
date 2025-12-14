@@ -26,7 +26,6 @@ object frmTanque: TfrmTanque
     Color = clNavy
     ParentBackground = False
     TabOrder = 0
-    ExplicitWidth = 798
     object lblTitle: TLabel
       Left = 10
       Top = 10
@@ -56,7 +55,6 @@ object frmTanque: TfrmTanque
     Padding.Right = 10
     Padding.Bottom = 10
     TabOrder = 1
-    ExplicitWidth = 798
     object lblNome: TLabel
       Left = 12
       Top = 12
@@ -66,7 +64,7 @@ object frmTanque: TfrmTanque
       FocusControl = edtNome
     end
     object lblTipo: TLabel
-      Left = 330
+      Left = 325
       Top = 12
       Width = 22
       Height = 13
@@ -74,7 +72,7 @@ object frmTanque: TfrmTanque
       FocusControl = edtTipo
     end
     object lblCapacidade: TLabel
-      Left = 548
+      Left = 537
       Top = 12
       Width = 60
       Height = 13
@@ -82,7 +80,7 @@ object frmTanque: TfrmTanque
       FocusControl = edtCapacidade
     end
     object lblNivelAtual: TLabel
-      Left = 656
+      Left = 649
       Top = 12
       Width = 55
       Height = 13
@@ -99,7 +97,7 @@ object frmTanque: TfrmTanque
       OnKeyPress = edtNomeKeyPress
     end
     object edtTipo: TEdit
-      Left = 330
+      Left = 325
       Top = 31
       Width = 200
       Height = 21
@@ -108,7 +106,7 @@ object frmTanque: TfrmTanque
       OnKeyPress = edtTipoKeyPress
     end
     object edtCapacidade: TEdit
-      Left = 548
+      Left = 537
       Top = 31
       Width = 100
       Height = 21
@@ -116,7 +114,7 @@ object frmTanque: TfrmTanque
       OnKeyPress = edtCapacidadeKeyPress
     end
     object edtNivelAtual: TEdit
-      Left = 656
+      Left = 649
       Top = 31
       Width = 100
       Height = 21
@@ -136,7 +134,6 @@ object frmTanque: TfrmTanque
     Padding.Right = 10
     Padding.Bottom = 10
     TabOrder = 2
-    ExplicitWidth = 798
     object btnNovo: TButton
       Left = 14
       Top = 12
@@ -166,16 +163,6 @@ object frmTanque: TfrmTanque
       TabOrder = 2
       OnClick = btnAtualizarClick
     end
-    object btnReabastecimento: TButton
-      Left = 341
-      Top = 12
-      Width = 110
-      Height = 25
-      Caption = '&Reabastecer'
-      Enabled = False
-      TabOrder = 3
-      OnClick = btnReabastecimentoClick
-    end
     object btnDeletar: TButton
       Left = 260
       Top = 12
@@ -183,7 +170,7 @@ object frmTanque: TfrmTanque
       Height = 25
       Caption = '&Deletar'
       Enabled = False
-      TabOrder = 4
+      TabOrder = 3
       OnClick = btnDeletarClick
     end
     object btnFechar: TButton
@@ -192,7 +179,7 @@ object frmTanque: TfrmTanque
       Width = 75
       Height = 25
       Caption = '&Fechar'
-      TabOrder = 5
+      TabOrder = 4
       OnClick = btnFecharClick
     end
   end
@@ -208,8 +195,6 @@ object frmTanque: TfrmTanque
     Padding.Right = 10
     Padding.Bottom = 10
     TabOrder = 3
-    ExplicitWidth = 798
-    ExplicitHeight = 342
     object sgTanques: TStringGrid
       Left = 10
       Top = 10
@@ -221,8 +206,6 @@ object frmTanque: TfrmTanque
       Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goRowSelect]
       TabOrder = 0
       OnSelectCell = sgTanquesSelectCell
-      ExplicitWidth = 778
-      ExplicitHeight = 322
       ColWidths = (
         50
         130

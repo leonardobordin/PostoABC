@@ -13,7 +13,6 @@ type
     FTipo: string;
     FCapacidade: Double;
     FNivelAtual: Double;
-    FDataReabastecimento: TDateTime;
     FDataCriacao: TDateTime;
 
     procedure SetId(const Value: Integer);
@@ -21,7 +20,6 @@ type
     procedure SetTipo(const Value: string);
     procedure SetCapacidade(const Value: Double);
     procedure SetNivelAtual(const Value: Double);
-    procedure SetDataReabastecimento(const Value: TDateTime);
     procedure SetDataCriacao(const Value: TDateTime);
 
     function GetId: Integer;
@@ -29,7 +27,6 @@ type
     function GetTipo: string;
     function GetCapacidade: Double;
     function GetNivelAtual: Double;
-    function GetDataReabastecimento: TDateTime;
     function GetDataCriacao: TDateTime;
   public
     constructor Create;
@@ -40,7 +37,6 @@ type
     property Tipo: string read GetTipo write SetTipo;
     property Capacidade: Double read GetCapacidade write SetCapacidade;
     property NivelAtual: Double read GetNivelAtual write SetNivelAtual;
-    property DataReabastecimento: TDateTime read GetDataReabastecimento write SetDataReabastecimento;
     property DataCriacao: TDateTime read GetDataCriacao write SetDataCriacao;
   end;
 
@@ -56,7 +52,6 @@ begin
   FTipo := '';
   FCapacidade := 0;
   FNivelAtual := 0;
-  FDataReabastecimento := 0;
   FDataCriacao := Now;
 end;
 
@@ -115,16 +110,6 @@ begin
   Result := FNivelAtual;
 end;
 
-procedure TTanque.SetDataReabastecimento(const Value: TDateTime);
-begin
-  FDataReabastecimento := Value;
-end;
-
-function TTanque.GetDataReabastecimento: TDateTime;
-begin
-  Result := FDataReabastecimento;
-end;
-
 procedure TTanque.SetDataCriacao(const Value: TDateTime);
 begin
   FDataCriacao := Value;
@@ -134,5 +119,7 @@ function TTanque.GetDataCriacao: TDateTime;
 begin
   Result := FDataCriacao;
 end;
+
+
 
 end.

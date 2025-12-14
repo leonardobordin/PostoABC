@@ -26,7 +26,6 @@ type
     btnNovo: TButton;
     btnInserir: TButton;
     btnAtualizar: TButton;
-    btnReabastecimento: TButton;
     btnDeletar: TButton;
     btnFechar: TButton;
     pnlGrid: TPanel;
@@ -36,7 +35,6 @@ type
     procedure btnNovoClick(Sender: TObject);
     procedure btnInserirClick(Sender: TObject);
     procedure btnAtualizarClick(Sender: TObject);
-    procedure btnReabastecimentoClick(Sender: TObject);
     procedure btnDeletarClick(Sender: TObject);
     procedure btnFecharClick(Sender: TObject);
     procedure sgTanquesSelectCell(Sender: TObject; ACol, ARow: Integer;
@@ -97,17 +95,14 @@ begin
         sgTanques.Cells[2, I + 1] := LTanques[I].Tipo;
         sgTanques.Cells[3, I + 1] := FormatFloat('0.00', LTanques[I].Capacidade);
         sgTanques.Cells[4, I + 1] := FormatFloat('0.00', LTanques[I].NivelAtual);
-        if LTanques[I].DataReabastecimento > 0 then
-          sgTanques.Cells[5, I + 1] := FormatDateTime('dd/mm/yyyy hh:mm:ss', LTanques[I].DataReabastecimento)
-        else
-          sgTanques.Cells[5, I + 1] := '';
+        sgTanques.Cells[5, I + 1] := FormatDateTime('dd/mm/yyyy hh:mm:ss', LTanques[I].DataCriacao);
       end;
     finally
       LTanques.Free;
     end;
   except
     on E: Exception do
-      ShowMessage('Erro ao carregar tanques: ' + E.Message);
+      ShowMessage('Erro ao carregar tanques na grid: ' + E.Message);
   end;
 end;
 
@@ -116,18 +111,18 @@ begin
   sgTanques.ColCount := 6;
   sgTanques.RowCount := 2;
   sgTanques.ColWidths[0] := 50;
-  sgTanques.ColWidths[1] := 150;
-  sgTanques.ColWidths[2] := 200;
+  sgTanques.ColWidths[1] := 130;
+  sgTanques.ColWidths[2] := 130;
   sgTanques.ColWidths[3] := 100;
   sgTanques.ColWidths[4] := 100;
-  sgTanques.ColWidths[5] := 150;
+  sgTanques.ColWidths[5] := 140;
 
   sgTanques.Cells[0, 0] := 'ID';
   sgTanques.Cells[1, 0] := 'Nome';
   sgTanques.Cells[2, 0] := 'Tipo';
   sgTanques.Cells[3, 0] := 'Capacidade';
   sgTanques.Cells[4, 0] := 'Nível Atual';
-  sgTanques.Cells[5, 0] := 'Data Reabastecimento';
+  sgTanques.Cells[5, 0] := 'Data/Hora Criação';
 end;
 
 procedure TfrmTanque.LimparCampos;
@@ -164,7 +159,7 @@ begin
       end;
     except
       on E: Exception do
-        ShowMessage('Erro ao carregar tanque: ' + E.Message);
+        ShowMessage('Erro ao carregar tanque nos campos: ' + E.Message);
     end;
   end;
 end;
@@ -175,7 +170,6 @@ begin
   edtTipo.Enabled := AHabilitar;
   edtCapacidade.Enabled := AHabilitar;
   edtNivelAtual.Enabled := AHabilitar;
-  btnReabastecimento.Enabled := AHabilitar;
   btnDeletar.Enabled := AHabilitar;
 end;
 
@@ -200,7 +194,6 @@ begin
   btnInserir.Enabled := True;
   btnAtualizar.Enabled := False;
   btnDeletar.Enabled := False;
-  btnReabastecimento.Enabled := False;
   edtNome.SetFocus;
 end;
 
@@ -248,6 +241,12 @@ begin
     Exit;
   end;
 
+  if edtCapacidade.Text = '' then
+  begin
+    ShowMessage('Capacidade é obrigatória');
+    Exit;
+  end;
+
   try
     FController.Atualizar(
       FIdSelecionado,
@@ -262,37 +261,6 @@ begin
   except
     on E: Exception do
       ShowMessage('Erro ao atualizar tanque: ' + E.Message);
-  end;
-end;
-
-procedure TfrmTanque.btnReabastecimentoClick(Sender: TObject);
-var
-  LMsg: string;
-  LNovoNivel: Double;
-begin
-  if FIdSelecionado <= 0 then
-  begin
-    ShowMessage('Selecione um tanque para reabastecer');
-    Exit;
-  end;
-
-  LMsg := 'Ao realizar um reabastecimento, o nível do tanque será igualado à capacidade.' + #13#13 +
-          'Registros de abastecimento criados a partir de agora afetarão este novo nível.' + #13#13 +
-          'Deseja continuar?';
-
-  if MessageDlg(LMsg, mtConfirmation, [mbYes, mbNo], 0) = mrYes then
-  begin
-    try
-      LNovoNivel := StrToFloat(edtCapacidade.Text);
-      
-      FController.Reabastecimento(FIdSelecionado, LNovoNivel);
-      edtNivelAtual.Text := FormatFloat('0.00', LNovoNivel);
-      ShowMessage('Tanque reabastecido com sucesso! Nível atual: ' + FormatFloat('0.00', LNovoNivel));
-      CarregarGrid;
-    except
-      on E: Exception do
-        ShowMessage('Erro ao reabastecer tanque: ' + E.Message);
-    end;
   end;
 end;
 

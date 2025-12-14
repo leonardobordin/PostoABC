@@ -9,7 +9,6 @@ type
   TBomba = class
   private
     FId: Integer;
-    FNumero: Integer;
     FDescricao: string;
     FIdTanque: Integer;
     FStatus: string;
@@ -17,7 +16,6 @@ type
     FNomeTanque: string;
 
     procedure SetId(const Value: Integer);
-    procedure SetNumero(const Value: Integer);
     procedure SetDescricao(const Value: string);
     procedure SetIdTanque(const Value: Integer);
     procedure SetStatus(const Value: string);
@@ -25,7 +23,6 @@ type
     procedure SetNomeTanque(const Value: string);
 
     function GetId: Integer;
-    function GetNumero: Integer;
     function GetDescricao: string;
     function GetIdTanque: Integer;
     function GetStatus: string;
@@ -36,7 +33,6 @@ type
     destructor Destroy; override;
 
     property Id: Integer read GetId write SetId;
-    property Numero: Integer read GetNumero write SetNumero;
     property Descricao: string read GetDescricao write SetDescricao;
     property IdTanque: Integer read GetIdTanque write SetIdTanque;
     property Status: string read GetStatus write SetStatus;
@@ -52,7 +48,6 @@ constructor TBomba.Create;
 begin
   inherited Create;
   FId := 0;
-  FNumero := 0;
   FDescricao := '';
   FIdTanque := 0;
   FStatus := 'ATIVA';
@@ -72,16 +67,6 @@ end;
 function TBomba.GetId: Integer;
 begin
   Result := FId;
-end;
-
-procedure TBomba.SetNumero(const Value: Integer);
-begin
-  FNumero := Value;
-end;
-
-function TBomba.GetNumero: Integer;
-begin
-  Result := FNumero;
 end;
 
 procedure TBomba.SetDescricao(const Value: string);

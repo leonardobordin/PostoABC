@@ -108,8 +108,8 @@ class procedure TDatabaseConnection.Finalizar;
 begin
   if Assigned(FInstancia) then
   begin
-    FInstancia.DesconectarBanco;  // Garante desconexão antes de destruir
-    FreeAndNil(FInstancia);        // FreeAndNil chama o Destructor
+    FInstancia.DesconectarBanco;
+    FreeAndNil(FInstancia);
   end;
 end;
 

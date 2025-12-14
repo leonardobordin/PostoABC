@@ -16,13 +16,13 @@ type
     FRepository: TTanqueRepository;
     FBombaRepository: TBombaRepository;
 
+    procedure ValidarAoPersistirDados(ANome, ATipo: string; ACapacidade, ANivelAtual: Double);
   public
     constructor Create;
     destructor Destroy; override;
 
     function Inserir(ANome, ATipo: string; ACapacidade, ANivelAtual: Double): Boolean;
     function Atualizar(AId: Integer; ANome, ATipo: string; ACapacidade, ANivelAtual: Double): Boolean;
-    function Reabastecimento(AId: Integer; ANivelAtual: Double): Boolean;
     function Deletar(AId: Integer): Boolean;
     function ObterPorId(AId: Integer): TTanque;
     function ObterTodos: TObjectList<TTanque>;
@@ -50,17 +50,7 @@ function TTanqueController.Inserir(ANome, ATipo: string; ACapacidade, ANivelAtua
 var
   LTanque: TTanque;
 begin
-  if ANome = '' then
-    raise Exception.Create('Nome do tanque é obrigatório');
-
-  if ACapacidade <= 0 then
-    raise Exception.Create('Capacidade deve ser maior que zero');
-
-  if ANivelAtual < 0 then
-    raise Exception.Create('Nível atual não pode ser negativo');
-
-  if ANivelAtual > ACapacidade then
-    raise Exception.Create('Nível atual não pode ser maior que a capacidade');
+  ValidarAoPersistirDados(ANome, ATipo, ACapacidade, ANivelAtual);
 
   LTanque := TTanque.Create;
   try
@@ -82,17 +72,7 @@ begin
   if AId <= 0 then
     raise Exception.Create('ID do tanque inválido');
 
-  if ANome = '' then
-    raise Exception.Create('Nome do tanque é obrigatório');
-
-  if ACapacidade <= 0 then
-    raise Exception.Create('Capacidade deve ser maior que zero');
-
-  if ANivelAtual < 0 then
-    raise Exception.Create('Nível atual não pode ser negativo');
-
-  if ANivelAtual > ACapacidade then
-    raise Exception.Create('Nível atual não pode ser maior que a capacidade');
+  ValidarAoPersistirDados(ANome, ATipo, ACapacidade, ANivelAtual);
 
   LTanque := TTanque.Create;
   try
@@ -115,7 +95,6 @@ begin
   if AId <= 0 then
     raise Exception.Create('ID do tanque inválido');
 
-  // Verificar se o tanque possui bombas vinculadas
   LBombas := FBombaRepository.ObterPorTanque(AId);
   try
     if Assigned(LBombas) and (LBombas.Count > 0) then
@@ -140,31 +119,20 @@ begin
   Result := FRepository.ObterTodos;
 end;
 
-function TTanqueController.Reabastecimento(AId: Integer; ANivelAtual: Double): Boolean;
-var
-  LTanque: TTanque;
+procedure TTanqueController.ValidarAoPersistirDados(ANome, ATipo: string;
+  ACapacidade, ANivelAtual: Double);
 begin
-  if AId <= 0 then
-    raise Exception.Create('ID do tanque inválido');
+  if ANome = '' then
+    raise Exception.Create('Nome do tanque é obrigatório');
+
+  if ACapacidade <= 0 then
+    raise Exception.Create('Capacidade deve ser maior que zero');
 
   if ANivelAtual < 0 then
     raise Exception.Create('Nível atual não pode ser negativo');
 
-  LTanque := FRepository.ObterPorId(AId);
-  try
-    if not Assigned(LTanque) then
-      raise Exception.Create('Tanque não encontrado');
-
-    if ANivelAtual > LTanque.Capacidade then
-      raise Exception.Create('Nível atual não pode ser maior que a capacidade');
-
-    // Atualizar o nível e a data de reabastecimento
-    Result := FRepository.AtualizarNivel(AId, ANivelAtual);
-    if Result then
-      Result := FRepository.AtualizarDataReabastecimento(AId, Now);
-  finally
-    LTanque.Free;
-  end;
+  if ANivelAtual > ACapacidade then
+    raise Exception.Create('Nível atual não pode ser maior que a capacidade');
 end;
 
 end.

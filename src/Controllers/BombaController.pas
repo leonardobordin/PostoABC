@@ -16,12 +16,13 @@ type
     FRepository: TBombaRepository;
     FAbastecimentoRepository: TAbastecimentoRepository;
 
+    procedure ValidarAoPersistirDados(ADescricao: string; AIdTanque: Integer; AStatus: string);
   public
     constructor Create;
     destructor Destroy; override;
 
-    function Inserir(ANumero: Integer; ADescricao: string; AIdTanque: Integer; AStatus: string = 'ATIVA'): Boolean;
-    function Atualizar(AId, ANumero: Integer; ADescricao: string; AIdTanque: Integer; AStatus: string): Boolean;
+    function Inserir(ADescricao: string; AIdTanque: Integer; AStatus: string = 'ATIVA'): Boolean;
+    function Atualizar(AId: Integer; ADescricao: string; AIdTanque: Integer; AStatus: string): Boolean;
     function Deletar(AId: Integer): Boolean;
     function ObterPorId(AId: Integer): TBomba;
     function ObterTodos: TObjectList<TBomba>;
@@ -47,22 +48,14 @@ begin
   inherited;
 end;
 
-function TBombaController.Inserir(ANumero: Integer; ADescricao: string; AIdTanque: Integer; AStatus: string = 'ATIVA'): Boolean;
+function TBombaController.Inserir(ADescricao: string; AIdTanque: Integer; AStatus: string): Boolean;
 var
   LBomba: TBomba;
 begin
-  if ANumero <= 0 then
-    raise Exception.Create('Número da bomba é obrigatório');
-
-  if ADescricao = '' then
-    raise Exception.Create('Número de série da bomba é obrigatório');
-
-  if AIdTanque <= 0 then
-    raise Exception.Create('Tanque é obrigatório');
+  ValidarAoPersistirDados(ADescricao, AIdTanque, AStatus);
 
   LBomba := TBomba.Create;
   try
-    LBomba.Numero := ANumero;
     LBomba.Descricao := ADescricao;
     LBomba.IdTanque := AIdTanque;
     LBomba.Status := AStatus;
@@ -73,26 +66,18 @@ begin
   end;
 end;
 
-function TBombaController.Atualizar(AId, ANumero: Integer; ADescricao: string; AIdTanque: Integer; AStatus: string): Boolean;
+function TBombaController.Atualizar(AId: Integer; ADescricao: string; AIdTanque: Integer; AStatus: string): Boolean;
 var
   LBomba: TBomba;
 begin
   if AId <= 0 then
     raise Exception.Create('ID da bomba inválido');
 
-  if ANumero <= 0 then
-    raise Exception.Create('Número da bomba é obrigatório');
-
-  if ADescricao = '' then
-    raise Exception.Create('Número de série da bomba é obrigatório');
-
-  if AIdTanque <= 0 then
-    raise Exception.Create('Tanque é obrigatório');
+  ValidarAoPersistirDados(ADescricao, AIdTanque, AStatus);
 
   LBomba := TBomba.Create;
   try
     LBomba.Id := AId;
-    LBomba.Numero := ANumero;
     LBomba.Descricao := ADescricao;
     LBomba.IdTanque := AIdTanque;
     LBomba.Status := AStatus;
@@ -110,7 +95,6 @@ begin
   if AId <= 0 then
     raise Exception.Create('ID da bomba inválido');
 
-  // Verificar se a bomba possui abastecimentos
   LAbastecimentos := FAbastecimentoRepository.ObterPorBomba(AId);
   try
     if Assigned(LAbastecimentos) and (LAbastecimentos.Count > 0) then
@@ -146,6 +130,18 @@ begin
     raise Exception.Create('ID do tanque inválido');
 
   Result := FRepository.ObterPorTanque(AIdTanque);
+end;
+
+procedure TBombaController.ValidarAoPersistirDados(ADescricao: string; AIdTanque: Integer; AStatus: string);
+begin
+  if ADescricao = '' then
+    raise Exception.Create('Descrição da bomba é obrigatória');
+
+  if AIdTanque <= 0 then
+    raise Exception.Create('Tanque é obrigatório');
+
+  if AStatus = '' then
+    raise Exception.Create('Status da bomba é obrigatório');
 end;
 
 end.

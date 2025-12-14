@@ -26,7 +26,6 @@ object frmBomba: TfrmBomba
     Color = clNavy
     ParentBackground = False
     TabOrder = 0
-    ExplicitWidth = 798
     object lblTitle: TLabel
       Left = 10
       Top = 10
@@ -56,17 +55,8 @@ object frmBomba: TfrmBomba
     Padding.Right = 10
     Padding.Bottom = 10
     TabOrder = 1
-    ExplicitWidth = 798
-    object lblNumero: TLabel
-      Left = 12
-      Top = 12
-      Width = 41
-      Height = 13
-      Caption = 'N'#250'mero'
-      FocusControl = edtNumero
-    end
     object lblDescricao: TLabel
-      Left = 110
+      Left = 12
       Top = 12
       Width = 49
       Height = 13
@@ -74,7 +64,7 @@ object frmBomba: TfrmBomba
       FocusControl = edtDescricao
     end
     object lblTanque: TLabel
-      Left = 330
+      Left = 223
       Top = 12
       Width = 37
       Height = 13
@@ -82,47 +72,37 @@ object frmBomba: TfrmBomba
       FocusControl = cbxTanque
     end
     object lblStatus: TLabel
-      Left = 548
+      Left = 435
       Top = 12
       Width = 32
       Height = 13
       Caption = 'Status'
       FocusControl = cbxStatus
     end
-    object edtNumero: TEdit
-      Left = 12
-      Top = 31
-      Width = 80
-      Height = 21
-      MaxLength = 10
-      TabOrder = 0
-      OnKeyPress = edtNumeroKeyPress
-    end
     object edtDescricao: TEdit
-      Left = 110
+      Left = 12
       Top = 31
       Width = 200
       Height = 21
       MaxLength = 50
-      TabOrder = 1
-      OnKeyPress = edtDescricaoKeyPress
+      TabOrder = 0
     end
     object cbxTanque: TComboBox
-      Left = 330
+      Left = 223
       Top = 31
       Width = 200
       Height = 21
       Style = csDropDownList
-      TabOrder = 2
+      TabOrder = 1
       OnKeyPress = cbxTanqueKeyPress
     end
     object cbxStatus: TComboBox
-      Left = 548
+      Left = 435
       Top = 31
       Width = 100
       Height = 21
       Style = csDropDownList
-      TabOrder = 3
+      TabOrder = 2
       OnKeyPress = cbxStatusKeyPress
     end
   end
@@ -138,7 +118,6 @@ object frmBomba: TfrmBomba
     Padding.Right = 10
     Padding.Bottom = 10
     TabOrder = 2
-    ExplicitWidth = 798
     object btnNovo: TButton
       Left = 12
       Top = 12
@@ -200,8 +179,6 @@ object frmBomba: TfrmBomba
     Padding.Right = 10
     Padding.Bottom = 10
     TabOrder = 3
-    ExplicitWidth = 798
-    ExplicitHeight = 362
     object sgBombas: TStringGrid
       Left = 10
       Top = 10
@@ -214,8 +191,6 @@ object frmBomba: TfrmBomba
       Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goRowSelect]
       TabOrder = 0
       OnSelectCell = sgBombasSelectCell
-      ExplicitWidth = 778
-      ExplicitHeight = 342
       ColWidths = (
         50
         66

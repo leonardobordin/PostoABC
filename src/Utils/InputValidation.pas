@@ -9,8 +9,7 @@ uses
 type
   TInputValidation = class
   public
-    class procedure ValidarInteiro(Sender: TObject; var Key: Char);
-    class procedure ValidarDecimal(Sender: TObject; var Key: Char);
+    class procedure ValidarDecimal(Sender: TObject; var Key: Char; AMaxInteiros: Integer = 9; AMaxDecimais: Integer = 2);
     class procedure ValidarTexto(Sender: TObject; var Key: Char; AMaxLength: Integer);
   end;
 
@@ -18,33 +17,32 @@ implementation
 
 { TInputValidation }
 
-class procedure TInputValidation.ValidarInteiro(Sender: TObject; var Key: Char);
-begin
-  if not (Sender is TEdit) then
-    Exit;
-
-  // Permitir apenas dígitos e controles (Backspace, Tab, Escape)
-  if not CharInSet(Key, ['0'..'9', #8, #9, #27]) then
-    Key := #0; // Cancelar a digitação
-end;
-
-class procedure TInputValidation.ValidarDecimal(Sender: TObject; var Key: Char);
+class procedure TInputValidation.ValidarDecimal(Sender: TObject; var Key: Char; AMaxInteiros: Integer = 9; AMaxDecimais: Integer = 2);
 var
   LEdit: TEdit;
   LText: string;
   LPos: Integer;
+  LParteDecimal: string;
 begin
   if not (Sender is TEdit) then
     Exit;
 
   LEdit := TEdit(Sender);
 
+  // Permitir atalhos de teclado (Ctrl+A, Ctrl+X, Ctrl+C, Ctrl+V, Delete, Backspace, Tab, Escape)
+  if CharInSet(Key, [#1..#8, #9, #22, #24, #26, #27]) then
+    Exit;
+
   // Permitir apenas dígitos, vírgula e controles
-  if not CharInSet(Key, ['0'..'9', ',', #8, #9, #27]) then
+  if not CharInSet(Key, ['0'..'9', ',', '.', #8, #9, #27, #46]) then
   begin
     Key := #0;
     Exit;
   end;
+
+  // Converter ponto para vírgula (aceitar ambos)
+  if Key = '.' then
+    Key := ',';
 
   // Se for vírgula, verificar se já existe uma
   if Key = ',' then
@@ -56,15 +54,23 @@ begin
     Exit;
   end;
 
-  // Limitar a 2 casas decimais após a vírgula
+  // Limitar a AMaxInteiros dígitos inteiros e AMaxDecimais casas decimais
   if CharInSet(Key, ['0'..'9']) then
   begin
     LText := LEdit.Text;
     LPos := Pos(',', LText);
+    
     if LPos > 0 then
     begin
-      // Se há vírgula e já tem 2 dígitos após ela
-      if Length(LText) - LPos >= 2 then
+      // Se há vírgula, limitar a AMaxDecimais dígitos após ela
+      LParteDecimal := Copy(LText, LPos + 1, Length(LText));
+      if Length(LParteDecimal) >= AMaxDecimais then
+        Key := #0; // Cancela a digitação
+    end
+    else
+    begin
+      // Se não há vírgula, limitar a AMaxInteiros dígitos inteiros
+      if Length(LText) >= AMaxInteiros then
         Key := #0; // Cancela a digitação
     end;
   end;

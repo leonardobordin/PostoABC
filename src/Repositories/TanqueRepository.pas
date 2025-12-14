@@ -18,7 +18,6 @@ type
     function Inserir(ATanque: TTanque): Boolean;
     function Atualizar(ATanque: TTanque): Boolean;
     function AtualizarNivel(AId: Integer; ANivelAtual: Double): Boolean;
-    function AtualizarDataReabastecimento(AId: Integer; ADataReabastecimento: TDateTime): Boolean;
     function Deletar(AId: Integer): Boolean;
     function ObterPorId(AId: Integer): TTanque;
     function ObterTodos: TObjectList<TTanque>;
@@ -43,21 +42,17 @@ begin
   LQuery := TDatabaseConnection.ObterInstancia.CriarConsulta;
   try
     try
-      LQuery.SQL.Text := 'INSERT INTO TANQUES (NOME, TIPO, CAPACIDADE, NIVEL_ATUAL, DATA_REABASTECIMENTO) ' +
-                         'VALUES (:NOME, :TIPO, :CAPACIDADE, :NIVEL_ATUAL, :DATA_REABASTECIMENTO)';
+      LQuery.SQL.Text := 'INSERT INTO TANQUES (NOME, TIPO, CAPACIDADE, NIVEL_ATUAL) ' +
+                         'VALUES (:NOME, :TIPO, :CAPACIDADE, :NIVEL_ATUAL)';
       LQuery.Params.ParamByName('NOME').AsString := ATanque.Nome;
       LQuery.Params.ParamByName('TIPO').AsString := ATanque.Tipo;
       LQuery.Params.ParamByName('CAPACIDADE').AsFloat := ATanque.Capacidade;
       LQuery.Params.ParamByName('NIVEL_ATUAL').AsFloat := ATanque.NivelAtual;
-      if ATanque.DataReabastecimento > 0 then
-        LQuery.Params.ParamByName('DATA_REABASTECIMENTO').AsDateTime := ATanque.DataReabastecimento
-      else
-        LQuery.Params.ParamByName('DATA_REABASTECIMENTO').Clear;
       LQuery.ExecSQL;
       Result := True;
     except
       on E: Exception do
-        raise Exception.Create('Erro ao inserir tanque: ' + E.Message);
+        raise Exception.Create('Falha ao inserir tanque no banco de dados: ' + E.Message);
     end;
   finally
     LQuery.Free;
@@ -72,23 +67,18 @@ begin
   try
     try
       LQuery.SQL.Text := 'UPDATE TANQUES SET NOME = :NOME, TIPO = :TIPO, ' +
-                         'CAPACIDADE = :CAPACIDADE, NIVEL_ATUAL = :NIVEL_ATUAL, ' +
-                         'DATA_REABASTECIMENTO = :DATA_REABASTECIMENTO ' +
+                         'CAPACIDADE = :CAPACIDADE, NIVEL_ATUAL = :NIVEL_ATUAL ' +
                          'WHERE ID = :ID';
       LQuery.Params.ParamByName('NOME').AsString := ATanque.Nome;
       LQuery.Params.ParamByName('TIPO').AsString := ATanque.Tipo;
       LQuery.Params.ParamByName('CAPACIDADE').AsFloat := ATanque.Capacidade;
       LQuery.Params.ParamByName('NIVEL_ATUAL').AsFloat := ATanque.NivelAtual;
-      if ATanque.DataReabastecimento > 0 then
-        LQuery.Params.ParamByName('DATA_REABASTECIMENTO').AsDateTime := ATanque.DataReabastecimento
-      else
-        LQuery.Params.ParamByName('DATA_REABASTECIMENTO').Clear;
       LQuery.Params.ParamByName('ID').AsInteger := ATanque.Id;
       LQuery.ExecSQL;
       Result := True;
     except
       on E: Exception do
-        raise Exception.Create('Erro ao atualizar tanque: ' + E.Message);
+        raise Exception.Create('Falha ao atualizar tanque no banco de dados: ' + E.Message);
     end;
   finally
     LQuery.Free;
@@ -109,28 +99,7 @@ begin
       Result := True;
     except
       on E: Exception do
-        raise Exception.Create('Erro ao atualizar nível do tanque: ' + E.Message);
-    end;
-  finally
-    LQuery.Free;
-  end;
-end;
-
-function TTanqueRepository.AtualizarDataReabastecimento(AId: Integer; ADataReabastecimento: TDateTime): Boolean;
-var
-  LQuery: TFDQuery;
-begin
-  LQuery := TDatabaseConnection.ObterInstancia.CriarConsulta;
-  try
-    try
-      LQuery.SQL.Text := 'UPDATE TANQUES SET DATA_REABASTECIMENTO = :DATA_REABASTECIMENTO WHERE ID = :ID';
-      LQuery.Params.ParamByName('DATA_REABASTECIMENTO').AsDateTime := ADataReabastecimento;
-      LQuery.Params.ParamByName('ID').AsInteger := AId;
-      LQuery.ExecSQL;
-      Result := True;
-    except
-      on E: Exception do
-        raise Exception.Create('Erro ao atualizar data de reabastecimento: ' + E.Message);
+        raise Exception.Create('Falha ao atualizar nível do tanque no banco de dados: ' + E.Message);
     end;
   finally
     LQuery.Free;
@@ -150,7 +119,7 @@ begin
       Result := True;
     except
       on E: Exception do
-        raise Exception.Create('Erro ao deletar tanque: ' + E.Message);
+        raise Exception.Create('Falha ao deletar tanque no banco de dados: ' + E.Message);
     end;
   finally
     LQuery.Free;
@@ -176,15 +145,11 @@ begin
         Result.Tipo := LQuery.FieldByName('TIPO').AsString;
         Result.Capacidade := LQuery.FieldByName('CAPACIDADE').AsFloat;
         Result.NivelAtual := LQuery.FieldByName('NIVEL_ATUAL').AsFloat;
-        if not LQuery.FieldByName('DATA_REABASTECIMENTO').IsNull then
-          Result.DataReabastecimento := LQuery.FieldByName('DATA_REABASTECIMENTO').AsDateTime
-        else
-          Result.DataReabastecimento := 0;
         Result.DataCriacao := LQuery.FieldByName('DATA_CRIACAO').AsDateTime;
       end;
     except
       on E: Exception do
-        raise Exception.Create('Erro ao obter tanque: ' + E.Message);
+        raise Exception.Create('Falha ao buscar tanque no banco de dados: ' + E.Message);
     end;
   finally
     LQuery.Free;
@@ -210,10 +175,6 @@ begin
         LTanque.Tipo := LQuery.FieldByName('TIPO').AsString;
         LTanque.Capacidade := LQuery.FieldByName('CAPACIDADE').AsFloat;
         LTanque.NivelAtual := LQuery.FieldByName('NIVEL_ATUAL').AsFloat;
-        if not LQuery.FieldByName('DATA_REABASTECIMENTO').IsNull then
-          LTanque.DataReabastecimento := LQuery.FieldByName('DATA_REABASTECIMENTO').AsDateTime
-        else
-          LTanque.DataReabastecimento := 0;
         LTanque.DataCriacao := LQuery.FieldByName('DATA_CRIACAO').AsDateTime;
         Result.Add(LTanque);
         LQuery.Next;
@@ -222,7 +183,7 @@ begin
       on E: Exception do
       begin
         Result.Free;
-        raise Exception.Create('Erro ao obter tanques: ' + E.Message);
+        raise Exception.Create('Falha ao buscar todos os tanques na base de dados: ' + E.Message);
       end;
     end;
   finally

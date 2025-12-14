@@ -143,10 +143,6 @@ Todas com auto-increment via sequences e triggers no Firebird.
 - As validações de entrada são feitas nos Controllers
 - Todos os erros de banco são capturados e exibidos em mensagens amigáveis
 
-## Desenvolvido por
-
-Leonardo Bordin - Sistema de Gerenciamento do Posto ABC - 2025
-
 ## Screenshots da Tela
 
 ### Tela Inicial
@@ -163,3 +159,37 @@ Leonardo Bordin - Sistema de Gerenciamento do Posto ABC - 2025
 
 ### Relatório de Abastecimento
 <img width="1920" height="1149" alt="PostoABC_5HvvUP6Gln" src="https://github.com/user-attachments/assets/3827909e-a63a-407a-ad61-a75fbf659db6" />
+
+## Testes Unitários
+
+O projeto possui testes automatizados utilizando o framework **DUnitX** (padrão moderno para Delphi). Esses testes estão organizados na pasta `tests/` e cobrem as principais camadas do sistema.
+
+> **Observação:**  
+> Nos arquivos de Controller e Repository, apenas os métodos de inserção foram testados até o momento. A implementação de testes para as demais rotinas ficará pendente para versões futuras.
+
+### Estrutura da pasta de testes
+
+```
+tests/
+├── Controllers/   # Testes dos controllers (lógica de negócio e validações)
+├── Models/        # Testes dos models (estrutura de dados)
+├── Repositories/  # Testes dos repositórios (acesso a dados)
+├── config.ini     # Configuração dos testes
+├── PostoABCTests.dpr   # Projeto principal de testes
+└── PostoABCTests.dproj # Arquivo de projeto Delphi dos testes
+```
+
+### Como executar os testes
+
+1. **Executando pelo .exe já compilado:**  
+   Basta rodar o arquivo `PostoABCTests.exe` que está na pasta `tests/`. Os resultados dos testes serão exibidos no console.
+
+2. **Executando pelo Delphi:**  
+   Abra o arquivo `PostoABCTests.dpr` no Delphi, compile e execute. Os resultados dos testes também serão exibidos no console.
+
+3. **Configuração:**  
+   Certifique-se de que o banco de dados de teste está criado e o arquivo `config.ini` está corretamente configurado para o ambiente de testes.
+
+## Desenvolvido por
+
+Leonardo Bordin - Sistema de Gerenciamento do Posto ABC - 2025

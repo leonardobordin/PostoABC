@@ -43,9 +43,8 @@ begin
   LQuery := TDatabaseConnection.ObterInstancia.CriarConsulta;
   try
     try
-      LQuery.SQL.Text := 'INSERT INTO BOMBAS (NUMERO, DESCRICAO, ID_TANQUE, STATUS) ' +
-                         'VALUES (:NUMERO, :DESCRICAO, :ID_TANQUE, :STATUS)';
-      LQuery.Params.ParamByName('NUMERO').AsInteger := ABomba.Numero;
+      LQuery.SQL.Text := 'INSERT INTO BOMBAS (DESCRICAO, ID_TANQUE, STATUS) ' +
+                         'VALUES (:DESCRICAO, :ID_TANQUE, :STATUS)';
       LQuery.Params.ParamByName('DESCRICAO').AsString := ABomba.Descricao;
       LQuery.Params.ParamByName('ID_TANQUE').AsInteger := ABomba.IdTanque;
       LQuery.Params.ParamByName('STATUS').AsString := ABomba.Status;
@@ -53,7 +52,7 @@ begin
       Result := True;
     except
       on E: Exception do
-        raise Exception.Create('Erro ao inserir bomba: ' + E.Message);
+        raise Exception.Create('Falha ao inserir bomba no banco de dados: ' + E.Message);
     end;
   finally
     LQuery.Free;
@@ -67,9 +66,8 @@ begin
   LQuery := TDatabaseConnection.ObterInstancia.CriarConsulta;
   try
     try
-      LQuery.SQL.Text := 'UPDATE BOMBAS SET NUMERO = :NUMERO, DESCRICAO = :DESCRICAO, ' +
+      LQuery.SQL.Text := 'UPDATE BOMBAS SET DESCRICAO = :DESCRICAO, ' +
                          'ID_TANQUE = :ID_TANQUE, STATUS = :STATUS WHERE ID = :ID';
-      LQuery.Params.ParamByName('NUMERO').AsInteger := ABomba.Numero;
       LQuery.Params.ParamByName('DESCRICAO').AsString := ABomba.Descricao;
       LQuery.Params.ParamByName('ID_TANQUE').AsInteger := ABomba.IdTanque;
       LQuery.Params.ParamByName('STATUS').AsString := ABomba.Status;
@@ -78,7 +76,7 @@ begin
       Result := True;
     except
       on E: Exception do
-        raise Exception.Create('Erro ao atualizar bomba: ' + E.Message);
+        raise Exception.Create('Falha ao deletar bomba no banco de dados: ' + E.Message);
     end;
   finally
     LQuery.Free;
@@ -98,7 +96,7 @@ begin
       Result := True;
     except
       on E: Exception do
-        raise Exception.Create('Erro ao deletar bomba: ' + E.Message);
+        raise Exception.Create('Falha ao deletar bomba no banco de dados: ' + E.Message);
     end;
   finally
     LQuery.Free;
@@ -120,7 +118,6 @@ begin
       begin
         Result := TBomba.Create;
         Result.Id := LQuery.FieldByName('ID').AsInteger;
-        Result.Numero := LQuery.FieldByName('NUMERO').AsInteger;
         Result.Descricao := LQuery.FieldByName('DESCRICAO').AsString;
         Result.IdTanque := LQuery.FieldByName('ID_TANQUE').AsInteger;
         Result.Status := LQuery.FieldByName('STATUS').AsString;
@@ -128,7 +125,7 @@ begin
       end;
     except
       on E: Exception do
-        raise Exception.Create('Erro ao obter bomba: ' + E.Message);
+        raise Exception.Create('Falha ao buscar bomba no banco de dados: ' + E.Message);
     end;
   finally
     LQuery.Free;
@@ -147,7 +144,6 @@ begin
       LQuery.SQL.Text := 
         'SELECT ' +
         '  BOMBAS.ID, ' +
-        '  BOMBAS.NUMERO, ' +
         '  BOMBAS.DESCRICAO, ' +
         '  BOMBAS.ID_TANQUE, ' +
         '  BOMBAS.STATUS, ' +
@@ -161,7 +157,6 @@ begin
       begin
         LBomba := TBomba.Create;
         LBomba.Id := LQuery.FieldByName('ID').AsInteger;
-        LBomba.Numero := LQuery.FieldByName('NUMERO').AsInteger;
         LBomba.Descricao := LQuery.FieldByName('DESCRICAO').AsString;
         LBomba.IdTanque := LQuery.FieldByName('ID_TANQUE').AsInteger;
         LBomba.Status := LQuery.FieldByName('STATUS').AsString;
@@ -174,7 +169,7 @@ begin
       on E: Exception do
       begin
         Result.Free;
-        raise Exception.Create('Erro ao obter bombas: ' + E.Message);
+        raise Exception.Create('Falha ao buscar todas as bombas no banco de dados: ' + E.Message);
       end;
     end;
   finally
@@ -197,7 +192,6 @@ begin
       begin
         LBomba := TBomba.Create;
         LBomba.Id := LQuery.FieldByName('ID').AsInteger;
-        LBomba.Numero := LQuery.FieldByName('NUMERO').AsInteger;
         LBomba.Descricao := LQuery.FieldByName('DESCRICAO').AsString;
         LBomba.IdTanque := LQuery.FieldByName('ID_TANQUE').AsInteger;
         LBomba.Status := LQuery.FieldByName('STATUS').AsString;
@@ -209,7 +203,7 @@ begin
       on E: Exception do
       begin
         Result.Free;
-        raise Exception.Create('Erro ao obter bombas ativas: ' + E.Message);
+        raise Exception.Create('Falha ao buscar bombas ativas no banco de dados: ' + E.Message);
       end;
     end;
   finally
@@ -226,14 +220,13 @@ begin
   LQuery := TDatabaseConnection.ObterInstancia.CriarConsulta;
   try
     try
-      LQuery.SQL.Text := 'SELECT * FROM BOMBAS WHERE ID_TANQUE = :ID_TANQUE ORDER BY NUMERO';
+      LQuery.SQL.Text := 'SELECT * FROM BOMBAS WHERE ID_TANQUE = :ID_TANQUE ORDER BY ID';
       LQuery.Params.ParamByName('ID_TANQUE').AsInteger := AIdTanque;
       LQuery.Open;
       while not LQuery.Eof do
       begin
         LBomba := TBomba.Create;
         LBomba.Id := LQuery.FieldByName('ID').AsInteger;
-        LBomba.Numero := LQuery.FieldByName('NUMERO').AsInteger;
         LBomba.Descricao := LQuery.FieldByName('DESCRICAO').AsString;
         LBomba.IdTanque := LQuery.FieldByName('ID_TANQUE').AsInteger;
         LBomba.Status := LQuery.FieldByName('STATUS').AsString;
@@ -245,7 +238,7 @@ begin
       on E: Exception do
       begin
         Result.Free;
-        raise Exception.Create('Erro ao obter bombas por tanque: ' + E.Message);
+        raise Exception.Create('Falha ao buscar bombas por tanque no banco de dados: ' + E.Message);
       end;
     end;
   finally

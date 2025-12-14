@@ -14,8 +14,6 @@ type
     pnlTitle: TPanel;
     lblTitle: TLabel;
     pnlForm: TPanel;
-    lblNumero: TLabel;
-    edtNumero: TEdit;
     lblDescricao: TLabel;
     edtDescricao: TEdit;
     lblTanque: TLabel;
@@ -39,8 +37,6 @@ type
     procedure btnFecharClick(Sender: TObject);
     procedure sgBombasSelectCell(Sender: TObject; ACol, ARow: Integer;
       var CanSelect: Boolean);
-    procedure edtNumeroKeyPress(Sender: TObject; var Key: Char);
-    procedure edtDescricaoKeyPress(Sender: TObject; var Key: Char);
     procedure cbxTanqueKeyPress(Sender: TObject; var Key: Char);
     procedure cbxStatusKeyPress(Sender: TObject; var Key: Char);
   private
@@ -101,7 +97,7 @@ begin
     end;
   except
     on E: Exception do
-      ShowMessage('Erro ao carregar tanques: ' + E.Message);
+      ShowMessage('Erro ao carregar tanques no campo de seleção: ' + E.Message);
   end;
 end;
 
@@ -113,21 +109,19 @@ end;
 
 procedure TfrmBomba.ConfigurarGrid;
 begin
-  sgBombas.ColCount := 6;
+  sgBombas.ColCount := 5;
   sgBombas.RowCount := 2;
   sgBombas.ColWidths[0] := 50;
-  sgBombas.ColWidths[1] := 60;
-  sgBombas.ColWidths[2] := 250;
-  sgBombas.ColWidths[3] := 250;
-  sgBombas.ColWidths[4] := 70;
-  sgBombas.ColWidths[5] := 150;
+  sgBombas.ColWidths[1] := 180;
+  sgBombas.ColWidths[2] := 180;
+  sgBombas.ColWidths[3] := 70;
+  sgBombas.ColWidths[4] := 150;
 
   sgBombas.Cells[0, 0] := 'ID';
-  sgBombas.Cells[1, 0] := 'Número';
-  sgBombas.Cells[2, 0] := 'Descrição';
-  sgBombas.Cells[3, 0] := 'Tanque';
-  sgBombas.Cells[4, 0] := 'Status';
-  sgBombas.Cells[5, 0] := 'Data/Hora';
+  sgBombas.Cells[1, 0] := 'Descrição';
+  sgBombas.Cells[2, 0] := 'Tanque';
+  sgBombas.Cells[3, 0] := 'Status';
+  sgBombas.Cells[4, 0] := 'Data/Hora Criação';
 end;
 
 procedure TfrmBomba.CarregarGrid;
@@ -144,15 +138,14 @@ begin
       for I := 0 to LBombas.Count - 1 do
       begin
         sgBombas.Cells[0, I + 1] := IntToStr(LBombas[I].Id);
-        sgBombas.Cells[1, I + 1] := IntToStr(LBombas[I].Numero);
-        sgBombas.Cells[2, I + 1] := LBombas[I].Descricao;
-        sgBombas.Cells[3, I + 1] := LBombas[I].NomeTanque;
-        sgBombas.Cells[4, I + 1] := LBombas[I].Status;
-        sgBombas.Cells[5, I + 1] := FormatDateTime('dd/mm/yyyy hh:mm:ss',LBombas[I].DataCriacao);
+        sgBombas.Cells[1, I + 1] := LBombas[I].Descricao;
+        sgBombas.Cells[2, I + 1] := LBombas[I].NomeTanque;
+        sgBombas.Cells[3, I + 1] := LBombas[I].Status;
+        sgBombas.Cells[4, I + 1] := FormatDateTime('dd/mm/yyyy hh:mm:ss',LBombas[I].DataCriacao);
       end;
     except
       on E: Exception do
-        ShowMessage('Erro ao carregar bombas: ' + E.Message);
+        ShowMessage('Erro ao carregar bombas na grid: ' + E.Message);
     end;
   finally
     if Assigned(LBombas) then
@@ -162,7 +155,6 @@ end;
 
 procedure TfrmBomba.LimparCampos;
 begin
-  edtNumero.Clear;
   edtDescricao.Clear;
   cbxTanque.ItemIndex := -1;
   cbxStatus.ItemIndex := -1;
@@ -183,7 +175,6 @@ begin
       try
         if Assigned(LBomba) then
         begin
-          edtNumero.Text := IntToStr(LBomba.Numero);
           edtDescricao.Text := LBomba.Descricao;
           
           // Localizar o tanque na combobox
@@ -203,14 +194,13 @@ begin
       end;
     except
       on E: Exception do
-        ShowMessage('Erro ao carregar bomba: ' + E.Message);
+        ShowMessage('Erro ao carregar bomba nos campos: ' + E.Message);
     end;
   end;
 end;
 
 procedure TfrmBomba.HabilitarCampos(AHabilitar: Boolean);
 begin
-  edtNumero.Enabled := AHabilitar;
   edtDescricao.Enabled := AHabilitar;
   cbxTanque.Enabled := AHabilitar;
   cbxStatus.Enabled := AHabilitar;
@@ -238,20 +228,14 @@ begin
   btnInserir.Enabled := True;
   btnAtualizar.Enabled := False;
   btnDeletar.Enabled := False;
-  edtNumero.SetFocus;
+  edtDescricao.SetFocus;
 end;
 
 procedure TfrmBomba.btnInserirClick(Sender: TObject);
 begin
-  if edtNumero.Text = '' then
-  begin
-    ShowMessage('Número da bomba é obrigatório');
-    Exit;
-  end;
-
   if edtDescricao.Text = '' then
   begin
-    ShowMessage('Número de série é obrigatório');
+    ShowMessage('Descrição é obrigatório');
     Exit;
   end;
 
@@ -261,12 +245,17 @@ begin
     Exit;
   end;
 
+  if cbxStatus.ItemIndex < 0 then
+  begin
+    ShowMessage('Status é obrigatório');
+    Exit;
+  end;
+
   try
     FBombaController.Inserir(
-      StrToInt(edtNumero.Text),
       edtDescricao.Text,
       Integer(cbxTanque.Items.Objects[cbxTanque.ItemIndex]),
-      'ATIVA'
+      cbxStatus.Text
     );
     ShowMessage('Bomba inserida com sucesso!');
     LimparCampos;
@@ -285,16 +274,15 @@ begin
     Exit;
   end;
 
-  if edtNumero.Text = '' then
+  if edtDescricao.Text = '' then
   begin
-    ShowMessage('Número da bomba é obrigatório');
+    ShowMessage('Descrição é obrigatório');
     Exit;
   end;
 
   try
     FBombaController.Atualizar(
       FIdSelecionado,
-      StrToInt(edtNumero.Text),
       edtDescricao.Text,
       Integer(cbxTanque.Items.Objects[cbxTanque.ItemIndex]),
       cbxStatus.Text
@@ -342,26 +330,6 @@ begin
   begin
     FIdSelecionado := StrToIntDef(sgBombas.Cells[0, ARow], 0);
     CarregarCampos;
-  end;
-end;
-
-procedure TfrmBomba.edtNumeroKeyPress(Sender: TObject; var Key: Char);
-begin
-  if Key = #13 then
-  begin
-    Key := #0;
-    edtDescricao.SetFocus;
-  end
-  else
-    TInputValidation.ValidarInteiro(Sender, Key);
-end;
-
-procedure TfrmBomba.edtDescricaoKeyPress(Sender: TObject; var Key: Char);
-begin
-  if Key = #13 then
-  begin
-    Key := #0;
-    cbxTanque.SetFocus;
   end;
 end;
 

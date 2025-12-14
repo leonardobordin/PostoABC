@@ -58,7 +58,7 @@ begin
       Result := True;
     except
       on E: Exception do
-        raise Exception.Create('Erro ao inserir abastecimento: ' + E.Message);
+        raise Exception.Create('Falha ao inserir abastecimento no banco de dados: ' + E.Message);
     end;
   finally
     LQuery.Free;
@@ -87,7 +87,7 @@ begin
       Result := True;
     except
       on E: Exception do
-        raise Exception.Create('Erro ao atualizar abastecimento: ' + E.Message);
+        raise Exception.Create('Falha ao atualizar abastecimento no banco de dados: ' + E.Message);
     end;
   finally
     LQuery.Free;
@@ -107,7 +107,7 @@ begin
       Result := True;
     except
       on E: Exception do
-        raise Exception.Create('Erro ao deletar abastecimento: ' + E.Message);
+        raise Exception.Create('Falha ao deletar abastecimento no banco de dados: ' + E.Message);
     end;
   finally
     LQuery.Free;
@@ -139,7 +139,7 @@ begin
       end;
     except
       on E: Exception do
-        raise Exception.Create('Erro ao obter abastecimento: ' + E.Message);
+        raise Exception.Create('Falha ao buscar abastecimento no banco de dados: ' + E.Message);
     end;
   finally
     LQuery.Free;
@@ -192,7 +192,7 @@ begin
       on E: Exception do
       begin
         Result.Free;
-        raise Exception.Create('Erro ao obter abastecimentos: ' + E.Message);
+        raise Exception.Create('Falha ao buscar todos os abastecimentos na base de dados: ' + E.Message);
       end;
     end;
   finally
@@ -232,7 +232,7 @@ begin
       on E: Exception do
       begin
         Result.Free;
-        raise Exception.Create('Erro ao obter abastecimentos por período: ' + E.Message);
+        raise Exception.Create('Falha ao buscar abastecimentos por período na base de dados: ' + E.Message);
       end;
     end;
   finally
@@ -270,7 +270,7 @@ begin
       on E: Exception do
       begin
         Result.Free;
-        raise Exception.Create('Erro ao obter abastecimentos por bomba: ' + E.Message);
+        raise Exception.Create('Falha ao buscar abastecimentos por bomba no banco de dados: ' + E.Message);
       end;
     end;
   finally
@@ -310,7 +310,7 @@ begin
     on E: Exception do
     begin
       Result.Free;
-      raise Exception.Create('Erro ao obter relatório de abastecimentos: ' + E.Message);
+      raise Exception.Create('Falha ao buscar informações do relatório de abastecimentos na base de dados: ' + E.Message);
     end;
   end;
 end;

@@ -28,7 +28,7 @@ uses
 {$R *.res}
 
 begin
-  //ReportMemoryLeaksOnShutdown := True;
+  ReportMemoryLeaksOnShutdown := True;
   Application.Title := 'Posto ABC';
   Application.Initialize;
   Application.MainFormOnTaskbar := True;

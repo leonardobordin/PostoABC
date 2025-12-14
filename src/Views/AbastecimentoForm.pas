@@ -32,6 +32,7 @@ type
     pnlButtons: TPanel;
     btnNovo: TButton;
     btnInserir: TButton;
+    btnAtualizar: TButton;
     btnDeletar: TButton;
     btnFechar: TButton;
     pnlGrid: TPanel;
@@ -40,6 +41,7 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure btnNovoClick(Sender: TObject);
     procedure btnInserirClick(Sender: TObject);
+    procedure btnAtualizarClick(Sender: TObject);
     procedure btnDeletarClick(Sender: TObject);
     procedure btnFecharClick(Sender: TObject);
     procedure sgAbastecimentosSelectCell(Sender: TObject; ACol, ARow: Integer;
@@ -111,7 +113,7 @@ begin
     end;
   except
     on E: Exception do
-      ShowMessage('Erro ao carregar bombas: ' + E.Message);
+      ShowMessage('Erro ao carregar bombas no campo de seleção: ' + E.Message);
   end;
 end;
 
@@ -120,13 +122,13 @@ begin
   sgAbastecimentos.ColCount := 9;
   sgAbastecimentos.RowCount := 2;
   sgAbastecimentos.ColWidths[0] := 50;
-  sgAbastecimentos.ColWidths[1] := 200;
+  sgAbastecimentos.ColWidths[1] := 120;
   sgAbastecimentos.ColWidths[2] := 80;
-  sgAbastecimentos.ColWidths[3] := 80;
-  sgAbastecimentos.ColWidths[4] := 100;
-  sgAbastecimentos.ColWidths[5] := 100;
-  sgAbastecimentos.ColWidths[6] := 100;
-  sgAbastecimentos.ColWidths[7] := 80;
+  sgAbastecimentos.ColWidths[3] := 60;
+  sgAbastecimentos.ColWidths[4] := 60;
+  sgAbastecimentos.ColWidths[5] := 80;
+  sgAbastecimentos.ColWidths[6] := 60;
+  sgAbastecimentos.ColWidths[7] := 60;
   sgAbastecimentos.ColWidths[8] := 150;
 
   sgAbastecimentos.Cells[0, 0] := 'ID';
@@ -137,7 +139,7 @@ begin
   sgAbastecimentos.Cells[5, 0] := 'V. Abastec.';
   sgAbastecimentos.Cells[6, 0] := 'Imposto';
   sgAbastecimentos.Cells[7, 0] := 'V. Total';
-  sgAbastecimentos.Cells[8, 0] := 'Data/Hora';
+  sgAbastecimentos.Cells[8, 0] := 'Data/Hora Abastecimento';
 end;
 
 procedure TfrmAbastecimento.CarregarGrid;
@@ -165,7 +167,7 @@ begin
       end;
     except
       on E: Exception do
-        ShowMessage('Erro ao carregar abastecimentos: ' + E.Message);
+        ShowMessage('Erro ao carregar abastecimentos na grid: ' + E.Message);
     end;
   finally
     if Assigned(LAbastecimentos) then
@@ -192,14 +194,25 @@ end;
 procedure TfrmAbastecimento.CarregarCampos;
 var
   LAbastecimento: TAbastecimento;
+  I: Integer;
 begin
   if FIdSelecionado > 0 then
   begin
     try
       LAbastecimento := FAbastecimentoController.ObterPorId(FIdSelecionado);
+
       try
         if Assigned(LAbastecimento) then
         begin
+
+          // Localizar o bomba na combobox
+          for I := 0 to cbxBomba.Items.Count - 1 do
+            if Integer(cbxBomba.Items.Objects[I]) = LAbastecimento.IdBomba then
+            begin
+              cbxBomba.ItemIndex := I;
+              Break;
+            end;
+
           cbxBomba.ItemIndex := LAbastecimento.IdBomba - 1;
           edtQuantidade.Text := FormatFloat('0.00', LAbastecimento.QuantidadeLitros);
           edtValorUnitario.Text := FormatFloat('0.00', LAbastecimento.ValorUnitario);
@@ -207,14 +220,14 @@ begin
           edtImposto.Text := FormatFloat('0.00', LAbastecimento.Imposto);
           edtValorTotal.Text := FormatFloat('0.00', LAbastecimento.ValorTotal);
           HabilitarCampos(True);
-          btnDeletar.Enabled := True;
+          AtualizarEstadoBotoes;
         end;
       finally
         LAbastecimento.Free;
       end;
     except
       on E: Exception do
-        ShowMessage('Erro ao carregar abastecimento: ' + E.Message);
+        ShowMessage('Erro ao carregar abastecimento nos campos: ' + E.Message);
     end;
   end;
 end;
@@ -224,7 +237,7 @@ begin
   cbxBomba.Enabled := AHabilitar;
   edtQuantidade.Enabled := AHabilitar;
   edtValorUnitario.Enabled := AHabilitar;
-  btnDeletar.Enabled := False;
+  btnDeletar.Enabled := AHabilitar;
 end;
 
 procedure TfrmAbastecimento.AtualizarEstadoBotoes;
@@ -232,10 +245,12 @@ begin
   if FIdSelecionado > 0 then
   begin
     btnInserir.Enabled := False;
+    btnAtualizar.Enabled := True;
   end
   else
   begin
     btnInserir.Enabled := (cbxBomba.ItemIndex >= 0);
+    btnAtualizar.Enabled := False;
   end;
 end;
 
@@ -303,7 +318,49 @@ begin
     CarregarGrid;
   except
     on E: Exception do
-      ShowMessage('Erro ao registrar abastecimento: ' + E.Message);
+      ShowMessage('Erro ao inserir abastecimento: ' + E.Message);
+  end;
+end;
+
+procedure TfrmAbastecimento.btnAtualizarClick(Sender: TObject);
+begin
+  if FIdSelecionado <= 0 then
+  begin
+    ShowMessage('Selecione um abastecimento para atualizar');
+    Exit;
+  end;
+
+  if cbxBomba.ItemIndex < 0 then
+  begin
+    ShowMessage('Selecione uma bomba');
+    Exit;
+  end;
+
+  if edtQuantidade.Text = '' then
+  begin
+    ShowMessage('Quantidade de litros é obrigatória');
+    Exit;
+  end;
+
+  if edtValorUnitario.Text = '' then
+  begin
+    ShowMessage('Valor unitário é obrigatório');
+    Exit;
+  end;
+
+  try
+    FAbastecimentoController.Atualizar(
+      FIdSelecionado,
+      Integer(cbxBomba.Items.Objects[cbxBomba.ItemIndex]),
+      StrToFloat(edtQuantidade.Text),
+      StrToFloat(edtValorUnitario.Text)
+    );
+    ShowMessage('Abastecimento atualizado com sucesso!');
+    LimparCampos;
+    CarregarGrid;
+  except
+    on E: Exception do
+      ShowMessage('Erro ao atualizar abastecimento: ' + E.Message);
   end;
 end;
 
@@ -362,7 +419,7 @@ begin
     edtValorUnitario.SetFocus;
   end
   else
-    TInputValidation.ValidarDecimal(Sender, Key);
+    TInputValidation.ValidarDecimal(Sender, Key, 4, 2);
 end;
 
 procedure TfrmAbastecimento.edtValorUnitarioKeyPress(Sender: TObject; var Key: Char);
@@ -373,7 +430,7 @@ begin
     btnInserir.SetFocus;
   end
   else
-    TInputValidation.ValidarDecimal(Sender, Key);
+    TInputValidation.ValidarDecimal(Sender, Key, 3, 2);
 end;
 
 procedure TfrmAbastecimento.cbxBombaChange(Sender: TObject);
