@@ -13,7 +13,8 @@ uses
   BombaModel,
   TanqueRepository,
   TanqueModel,
-  FireDAC.Comp.Client;
+  FireDAC.Comp.Client,
+  DatabaseConnection;
 
 type
   TAbastecimentoController = class
@@ -92,32 +93,29 @@ var
   LTanque: TTanque;
   LNovoNivel: Double;
 begin
-  try
-    if Assigned(ABomba) and (ABomba.IdTanque > 0) then
-    begin
-      LTanque := FTanqueRepository.ObterPorId(ABomba.IdTanque);
-      try
-        if Assigned(LTanque) then
+  if Assigned(ABomba) and (ABomba.IdTanque > 0) then
+  begin
+    LTanque := FTanqueRepository.ObterPorId(ABomba.IdTanque);
+    try
+      if Assigned(LTanque) then
+      begin
+        if ASubtrair then
         begin
-          if ASubtrair then
-          begin
-            LNovoNivel := LTanque.NivelAtual - AQuantidadeLitros;
-            if LNovoNivel < 0 then
-              LNovoNivel := 0;
-          end
-          else
-          begin
-            LNovoNivel := LTanque.NivelAtual + AQuantidadeLitros;
-            if LNovoNivel > LTanque.Capacidade then
-              LNovoNivel := LTanque.Capacidade;
-          end;
-          FTanqueRepository.AtualizarNivel(LTanque.Id, LNovoNivel);
+          LNovoNivel := LTanque.NivelAtual - AQuantidadeLitros;
+          if LNovoNivel < 0 then
+            LNovoNivel := 0;
+        end
+        else
+        begin
+          LNovoNivel := LTanque.NivelAtual + AQuantidadeLitros;
+          if LNovoNivel > LTanque.Capacidade then
+            LNovoNivel := LTanque.Capacidade;
         end;
-      finally
-        LTanque.Free;
+        FTanqueRepository.AtualizarNivel(LTanque.Id, LNovoNivel);
       end;
+    finally
+      LTanque.Free;
     end;
-  finally
   end;
 end;
 
@@ -185,6 +183,7 @@ var
   LValorAbastecimento: Double;
   LImposto: Double;
   LValorTotal: Double;
+  LConexao: TFDConnection;
 begin
   if AIdBomba <= 0 then
     raise Exception.Create('Bomba é obrigatória');
@@ -213,11 +212,23 @@ begin
       LAbastecimento.ValorTotal := LValorTotal;
       LAbastecimento.DataAbastecimento := Now;
 
-      Result := FRepository.Inserir(LAbastecimento);
-      
-      // Se inseriu com sucesso, atualizar o nível do tanque
-      if Result then
-        AtualizarNivelTanque(LBomba, AQuantidadeLitros, True);
+      LConexao := TDatabaseConnection.ObterInstancia.ObterConexao;
+      LConexao.StartTransaction;
+      try
+        Result := FRepository.Inserir(LAbastecimento);
+
+        // Se inseriu com sucesso, atualizar o nível do tanque
+        if Result then
+          AtualizarNivelTanque(LBomba, AQuantidadeLitros, True);
+
+        LConexao.Commit;
+      except
+        on E: Exception do
+        begin
+          LConexao.Rollback;
+          raise;
+        end;
+      end;
     finally
       LAbastecimento.Free;
     end;
@@ -238,6 +249,7 @@ var
   LDiferencaLitros: Double;
   LIdBombaAnterior: Integer;
   LBombaFoiTrocada: Boolean;
+  LConexao: TFDConnection;
 begin
   if AId <= 0 then
     raise Exception.Create('ID do abastecimento inválido');
@@ -304,27 +316,40 @@ begin
         LAbastecimentoNovo.ValorTotal := LValorTotal;
         LAbastecimentoNovo.DataAbastecimento := LAbastecimentoAnterior.DataAbastecimento;
 
-        Result := FRepository.Atualizar(LAbastecimentoNovo);
+        LConexao := TDatabaseConnection.ObterInstancia.ObterConexao;
+        LConexao.StartTransaction;
+        try
+          Result := FRepository.Atualizar(LAbastecimentoNovo);
 
-        // Se atualizou com sucesso, ajustar o nível do tanque
-        if Result then
-        begin
-          if LBombaFoiTrocada then
+          // Se atualizou com sucesso, ajustar o nível do tanque
+          if Result then
           begin
-            // Devolver a litragem anterior para a bomba anterior
-            AtualizarNivelTanque(LBombaAnterior, LAbastecimentoAnterior.QuantidadeLitros, False);
-            // Subtrair a nova litragem da nova bomba
-            AtualizarNivelTanque(LBombaNova, AQuantidadeLitros, True);
-          end
-          else
+            if LBombaFoiTrocada then
+            begin
+              // Devolver a litragem anterior para a bomba anterior
+              AtualizarNivelTanque(LBombaAnterior, LAbastecimentoAnterior.QuantidadeLitros, False);
+              // Subtrair a nova litragem da nova bomba
+              AtualizarNivelTanque(LBombaNova, AQuantidadeLitros, True);
+            end
+            else
+            begin
+              // Se não mudou de bomba, ajustar apenas a diferença na mesma bomba
+              if LDiferencaLitros > 0 then
+                AtualizarNivelTanque(LBombaNova, LDiferencaLitros, True)
+              else if LDiferencaLitros < 0 then
+                AtualizarNivelTanque(LBombaNova, Abs(LDiferencaLitros), False);
+            end;
+          end;
+
+          LConexao.Commit;
+        except
+          on E: Exception do
           begin
-            // Se não mudou de bomba, ajustar apenas a diferença na mesma bomba
-            if LDiferencaLitros > 0 then
-              AtualizarNivelTanque(LBombaNova, LDiferencaLitros, True)
-            else if LDiferencaLitros < 0 then
-              AtualizarNivelTanque(LBombaNova, Abs(LDiferencaLitros), False);
+            LConexao.Rollback;
+            raise;
           end;
         end;
+
       finally
         LAbastecimentoNovo.Free;
       end;
@@ -341,6 +366,7 @@ function TAbastecimentoController.Deletar(AId: Integer): Boolean;
 var
   LAbastecimento: TAbastecimento;
   LBomba: TBomba;
+  LConexao: TFDConnection;
 begin
   if AId <= 0 then
     raise Exception.Create('ID do abastecimento inválido');
@@ -354,13 +380,25 @@ begin
       try
         // Validar se a devolução dos litros ultrapassará a capacidade do tanque
         ValidarDevolucaoAoTanque(LBomba, LAbastecimento.QuantidadeLitros);
-        
-        // Deletar o abastecimento
-        Result := FRepository.Deletar(AId);
-        
-        // Se deletou com sucesso, devolver os litros ao tanque
-        if Result then
-          AtualizarNivelTanque(LBomba, LAbastecimento.QuantidadeLitros, False);
+
+        LConexao := TDatabaseConnection.ObterInstancia.ObterConexao;
+        LConexao.StartTransaction;
+        try
+          // Deletar o abastecimento
+          Result := FRepository.Deletar(AId);
+
+          // Se deletou com sucesso, devolver os litros ao tanque
+          if Result then
+            AtualizarNivelTanque(LBomba, LAbastecimento.QuantidadeLitros, False);
+
+          LConexao.Commit;
+        except
+          on E: Exception do
+          begin
+            LConexao.Rollback;
+            raise;
+          end;
+        end;
       finally
         LBomba.Free;
       end;
