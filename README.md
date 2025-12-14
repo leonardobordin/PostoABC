@@ -75,7 +75,7 @@ Percentual=13
   - Valor total
 - Histórico de abastecimentos
 
-### 4. Relatórios
+### 4. Relatórios (FortesReport)
 - Relatório agrupado de abastecimentos por período
 - Exibição de:
   - Data do abastecimento
@@ -143,23 +143,6 @@ Todas com auto-increment via sequences e triggers no Firebird.
 - As validações de entrada são feitas nos Controllers
 - Todos os erros de banco são capturados e exibidos em mensagens amigáveis
 
-## Screenshots da Tela
-
-### Tela Inicial
-<img width="998" height="700" alt="PostoABC_QL2dXst4yA" src="https://github.com/user-attachments/assets/25bdc769-0638-44f6-b598-e3b03b90670c" />
-
-### Cadastro de Tanques
-<img width="998" height="706" alt="PostoABC_QW8WyjFzGN" src="https://github.com/user-attachments/assets/4b59ab32-20ae-446c-8530-e9c9aada8026" />
-
-### Cadastro de Bombas
-<img width="998" height="706" alt="PostoABC_HFmjvigCgZ" src="https://github.com/user-attachments/assets/bf772437-54e0-4042-a7f1-602d9a270d6b" />
-
-### Cadastro de Abastecimentos
-<img width="998" height="706" alt="PostoABC_3zw3Jo3bES" src="https://github.com/user-attachments/assets/5e7800ee-6eaa-4602-aae6-dc0a9188cdff" />
-
-### Relatório de Abastecimento
-<img width="1920" height="1149" alt="PostoABC_5HvvUP6Gln" src="https://github.com/user-attachments/assets/3827909e-a63a-407a-ad61-a75fbf659db6" />
-
 ## Testes Unitários
 
 O projeto possui testes automatizados utilizando o framework **DUnitX** (padrão moderno para Delphi). Esses testes estão organizados na pasta `tests/` e cobrem as principais camadas do sistema.
@@ -189,6 +172,26 @@ tests/
 
 3. **Configuração:**  
    Certifique-se de que o banco de dados de teste está criado e o arquivo `config.ini` está corretamente configurado para o ambiente de testes.
+
+## Screenshots da Tela
+
+### Tela Inicial
+<img width="800" height="561" alt="1" src="https://github.com/user-attachments/assets/d82578e6-78f7-4ffd-868b-d1e7cba1e605" />
+
+### Cadastro de Tanques
+<img width="800" height="566" alt="2" src="https://github.com/user-attachments/assets/fe4f3229-8355-46a4-b758-9dd571c26cc9" />
+
+### Cadastro de Bombas
+<img width="800" height="566" alt="3" src="https://github.com/user-attachments/assets/f7e5f078-665e-46ff-b72f-ecdfdc53ab83" />
+
+### Cadastro de Abastecimentos
+<img width="800" height="566" alt="4" src="https://github.com/user-attachments/assets/00366231-961f-416c-b254-cebf21c17791" />
+
+### Tela para seleção das datas do relatório
+<img width="800" height="561" alt="5" src="https://github.com/user-attachments/assets/7a564400-eb53-4f00-b081-d9c27a704faa" />
+
+### Relatório de Abastecimento
+<img width="1928" height="1040" alt="6" src="https://github.com/user-attachments/assets/a3f3d76f-13e1-44ac-8a70-1574920d838b" />
 
 ## Desenvolvido por
 
