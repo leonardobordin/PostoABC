@@ -21,7 +21,7 @@ echo Removendo arquivos temporarios...
 
 for %%F in (
   dcu dcp bak local identcache stat hpp
-  dll bpl map drc rsm res
+  bpl map drc rsm res
   ~*
 ) do (
   for /r "%BASE%" %%G in (*.%%F) do (

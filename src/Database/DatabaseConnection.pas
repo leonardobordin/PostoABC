@@ -120,7 +120,10 @@ begin
       FConexao.Open;
   except
     on E: Exception do
+    begin
+      Finalizar;
       raise Exception.Create('Erro ao conectar ao banco: ' + E.Message);
+    end;
   end;
 end;
 

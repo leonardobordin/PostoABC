@@ -4,7 +4,6 @@
 *.d
 *.res
 *.rsm
-*.dll
 *.bpl
 *.bpi
 *.dcp
