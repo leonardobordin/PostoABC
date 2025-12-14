@@ -138,7 +138,7 @@ Todas com auto-increment via sequences e triggers no Firebird.
 ## Observações Importantes
 
 - O arquivo `config.ini` deve estar na mesma pasta que o executável
-- Dependendo da instalação do Firebird deverá ser colocado a DLL fbclient.dll junto com o executável do sistema
+- Dependendo da instalação do Firebird talvez seja necessário substituir a fbclient.dll junto com o executável do sistema
 - A conexão com banco utiliza **Singleton Pattern** para economizar recursos
 - As validações de entrada são feitas nos Controllers
 - Todos os erros de banco são capturados e exibidos em mensagens amigáveis
