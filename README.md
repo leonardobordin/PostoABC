@@ -106,19 +106,19 @@ end;
 Responsáveis pela interação direta com o banco de dados:
 
 ```delphi
-TRepository.Inserir(AModel);
-TRepository.Atualizar(AModel);
-TRepository.Deletar(AId);
-TRepository.ObterPorId(AId);
-TRepository.ObterTodos;
+Repository.Inserir(AModel);
+Repository.Atualizar(AModel);
+Repository.Deletar(AId);
+Repository.ObterPorId(AId);
+Repository.ObterTodos;
 ```
 
 ### Controllers
 Implementam validações e lógica de negócio:
 
 ```delphi
-TController.Inserir(...);
-TController.CalcularImposto(...);
+Controller.Inserir(...);
+Controller.CalcularImposto(...);
 // ... métodos de validação e processamento
 ```
 
